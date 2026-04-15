@@ -1,0 +1,76 @@
+﻿@model ApexOMS_Web.Models.DashboardData
+
+<div class="container mt-4">
+    <div class="card shadow border-0">
+        <div class="card-header bg-info text-white">
+            <h4 class="mb-0">New Dashboard Entry</h4>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Create" method="post">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Customer Name</label>
+                        <input asp-for="cust_name" class="form-control" required />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Sample Order No</label>
+                        <input asp-for="sample_order_no" class="form-control" required />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Approval Status</label>
+                        <select asp-for="approval" class="form-select">
+                            <option value="Pending">Pending</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Customer Delivery Date</label>
+                        <input asp-for="cd_date" type="date" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Product Delivery Date</label>
+                        <input asp-for="pd_date" type="date" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Shipment Date</label>
+                        <input asp-for="shipment_date" type="date" class="form-control" />
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Shipment Quantity</label>
+                        <input asp-for="shipment_quantity" type="number" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Last Name</label>
+                        <input asp-for="last" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Knife Status</label>
+                        <input asp-for="knife_status" class="form-control" />
+                    </div>
+                    @* <div class="col-md-3">
+                        <label class="form-label fw-bold">Tech Sheet</label>
+                        <input asp-for="tech_sheet_status" class="form-control" />
+                    </div> *@
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Tech Sheet Status</label>
+                        <select asp-for="tech_sheet_status" class="form-select">
+                            <option value="Deliver To Floor">Deliver to Floor</option>
+                            <option value="Open For Edit">Open For Edit</option>
+                            <option value="Completed By PD">Completed By PD</option>
+                            <option value="Review Verified By IB">Review Verified By IB</option>
+                            <option value="Pending For OM">Pending For OM</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-3 border-top">
+                    <a href="/Dashboard/Index" class="btn btn-secondary">Back to List</a>
+                    <button type="submit" class="btn btn-info text-white px-5">Save Entry</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

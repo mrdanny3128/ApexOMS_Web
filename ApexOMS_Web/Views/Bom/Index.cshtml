@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ApexOMS_Web.Models.Bom>
+@* Only show this button if the user is NOT in the IB department *@
+@if (Context.Session.GetString("UserRole") != "IB")
+{
+    <a href="/Bom.cs/Create" class="btn btn-primary">+ Add New</a>
+}
+
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-dark fw-bold"><i class="bi bi-list-check"></i> Bill of Materials (BOM)</h2>
+        <a href="/Bom/Create" class="btn btn-dark">+ New BOM Entry</a>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <table class="table table-striped table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>BOM No</th>
+                        <th>Sales Part</th>
+                        <th>Last</th>
+                        <th>Element</th>
+                        <th>Material Description</th>
+                        <th>Qty</th>
+                        <th>UOM</th>
+                        <th>Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.BOM_NO</td>
+                            <td>@item.APEX_SALES_PART</td>
+                            @* <td>@item.Last</td> *@
+                            <td>@item.ELEMENT</td>
+                            <td>@item.MATERIALDESC</td>
+                            <td>@item.QUANTITY</td>
+                            <td>@item.UOM</td>
+                            <td>@item.RATE?.ToString("C")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

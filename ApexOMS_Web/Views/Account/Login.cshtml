@@ -1,0 +1,75 @@
+﻿@model ApexOMS_Web.Models.User
+@{
+    Layout = null; // We are designing this page independently
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Apex OMS</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+
+    <style>
+        body {
+            /* 1. Set the background image ( professional warehouse view ) */
+            background-image: url('https://theprestige.global/wp-content/uploads/2025/02/apex-event.png');
+            /* 2. Ensure the image covers the whole screen */
+            background-size: cover;
+            /* 3. Center the image on the page */
+            background-position: center;
+            /* 4. Keep the image in place when scrolling */
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            /* 5. Center the login card vertically and horizontally */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 6. Style the login card for better visibility */
+        .login-card {
+            background-color: rgba(255, 255, 255, 0.65); /* White with a little transparency */
+            border-radius: 15px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3); /* Strong shadow for depth */
+            width: 400px;
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="text-center mb-4">
+            <h1 class="text-primary fw-bold">APEX OMS</h1>
+            <p class="text-muted">Production Order System</p>
+            <hr />
+        </div>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger text-center">@ViewBag.Error</div>
+        }
+
+        <form action="/Account/Login" method="post">
+            <div class="mb-3">
+                <label class="form-label">User ID</label>
+                <input type="text" name="txtUser" class="form-control" placeholder="Enter Apex ID" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="txtPass" class="form-control" placeholder="Enter Password" required />
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2">Sign In</button>
+
+            <div class="mt-4 text-center">
+                <p>New staff member? <a href="/Account/Register" class="text-decoration-none text-success fw-bold">Register ID</a></p>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

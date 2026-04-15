@@ -1,0 +1,62 @@
+﻿@model ApexOMS_Web.Models.ArticleLast
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white p-3">
+                    <h5 class="mb-0">Article Entry Form</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Apex Sales Part</label>
+                                <input asp-for="apex_sales_part" class="form-control" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Last (Mold)</label>
+                                <input asp-for="Last" class="form-control" required />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Style</label>
+                                <input asp-for="shoe_style" class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Gender</label>
+                                <select asp-for="gender" class="form-select">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Kids">Kids</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Status</label>
+                                <select asp-for="status" class="form-select">
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Season</label>
+                                <input asp-for="season" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Year</label>
+                                <input asp-for="season_year" type="number" class="form-control" value="2026" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Entry Date</label>
+                                <input asp-for="entry_date" type="datetime-local" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="mt-4 d-flex justify-content-between">
+                            <a href="/Article/Index" class="btn btn-outline-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary px-5">Save Article</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
