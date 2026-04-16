@@ -1,40 +1,6 @@
-﻿@* @{
-    ViewData["Title"] = "Home Page";
-}
-<div class="text-center">
-    <h1 class="display-4">Welcome to Apex Order Management System</h1>
-    <p> For Choosing Your Best Shoe, Visit <a href="https://apex4u.com/">APEX FOOTWEAR LTD.</a></p>
-</div>
+﻿
 
-<div class="row mt-5 text-center">
-    <div class="col-md-4">
-        <div class="card shadow h-100 py-4 border-primary">
-            <div class="card-body">
-                <i class="bi bi-box-seam display-4 text-primary"></i>
-                <h4 class="mt-3">Inventory</h4>
-                <p class="text-muted">Manage production orders.</p>
-                <a href="/Inventory/Index" class="btn btn-primary px-4">Go to Inventory</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="card shadow h-100 py-4 border-primary">
-            <div class="card-body">
-                <i class="bi bi-layers display-4 text-success"></i>
-                <h4 class="mt-3">Article & Lasts</h4>
-                <p class="text-muted">Database of shoe articles and molds.</p>
-                <a href="/Article/Index" class="btn btn-success px-4">View Articles</a>
-            </div>
-        </div>
-    </div>
-</div>
-
- *@
-
-
-
-@{
+@* @{
     ViewData["Title"] = "Apex Dashboard";
 }
 
@@ -94,4 +60,137 @@
     {
         <partial name="_IBDash" />
     }
+</div> *@
+
+
+
+
+
+@using Microsoft.AspNetCore.Http
+@{
+    var role = Context.Session.GetString("UserRole");
+}
+
+<div class="container mt-5">
+
+    @* --- UPPER PORTION: Only show for Super Admin --- *@
+    @if (role == "SuperAdmin")
+    {
+
+        @* --- Super Admin Row: 4 Equal Cards --- *@
+        <div class="row justify-content-center g-4 mb-5">
+            <div class="col-md-3">
+                <div class="card shadow border-0 h-100">
+                    <div class="card-body text-center p-4">
+                        <h3 class="text-success fw-bold">Inventory</h3>
+                        <p class="small text-muted">View and add new production orders.</p>
+                        <a href="/Inventory/Index" class="btn btn-success w-100 mt-2">Open Inventory</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow border-0 h-100">
+                    <div class="card-body text-center p-4">
+                        <h3 class="text-primary fw-bold">Articles</h3>
+                        <p class="small text-muted">Manage shoe articles and last molds.</p>
+                        <a href="/Article/Index" class="btn btn-primary w-100 mt-2">Open Master</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow border-0 h-100">
+                    <div class="card-body text-center p-4">
+                        <h3 class="text-info fw-bold">Production Tracking</h3>
+                        <p class="small text-muted">Monitor CD/PD dates and status.</p>
+                        <a href="/Dashboard/Index" class="btn btn-info text-white w-100 mt-2">Open Dashboard</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card shadow border-0 h-100">
+                    <div class="card-body text-center p-4">
+                        <h3 class="text-dark fw-bold">Bill of Materials</h3>
+                        <p class="small text-muted">Manage materials and shoe recipes.</p>
+                        <a href="/Bom/Index" class="btn btn-dark w-100 mt-2">Open BOM</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-4">
+                <div class="card shadow border-0 border-top border-danger border-5 h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="bi bi-shield-lock-fill text-danger display-5"></i>
+                        <h3 class="text-danger fw-bold mt-2">User Access Control</h3>
+                        <p class="small text-muted">Approve new registrations and assign roles (IB, Design Lab, Admin)</p>
+                        <a href="/Account/UserList" class="btn btn-danger w-100 mt-2 fw-bold">Manage Users & Approvals</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+    }
+
+    @* --- LOWER PORTION: Role-Based Content --- *@
+    <div class="mt-4">
+        @if (role == "SuperAdmin")
+        {
+            @* SuperAdmin can see everything, or a specific admin view *@
+            <h3>Super Admin Control Panel</h3>
+            @* Add admin specific links here *@
+        }
+        else if (role == "DesignLab")
+        {
+            @* This is what shows for DL users now *@
+            <partial name="_DesignLabDash" />
+        }
+        else if (role == "IB")
+        {
+            <partial name="_IBDash" />
+        }
+    </div>
 </div>
+
+
+
+
+
+
+
+
+
+@* <div class="row justify-content-center g-4 mb-5">
+    @* <div class="text-center"> 
+    <h1 class="display-4 fw-bold text-primary mb-3">Apex Order Management</h1>
+    <p class="lead text-muted mb-5">Welcome to the central production portal.</p>
+
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow border-0 p-3">
+                <h3 class="text-success">Inventory</h3>
+                <a href="/Inventory/Index" class="btn btn-success mt-2">Open Inventory</a>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow border-0 p-3">
+                <h3 class="text-primary">Articles</h3>
+                <a href="/Article/Index" class="btn btn-primary mt-2">Open Master</a>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow border-0 p-3">
+                <h3 class="text-info">Production Tracking</h3>
+                <a href="/Dashboard/Index" class="btn btn-info text-white mt-2">Open Dashboard</a>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow border-0 p-3">
+                    <h3 class="text-success">Bill Of Materials</h3>
+                    <a href="/Bom/Index" class="btn btn-info text-white mt-2">Open BOM</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> *@

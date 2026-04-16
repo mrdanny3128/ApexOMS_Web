@@ -1,14 +1,18 @@
 ﻿@model IEnumerable<ApexOMS_Web.Models.Bom>
 @* Only show this button if the user is NOT in the IB department *@
-@if (Context.Session.GetString("UserRole") != "IB")
+@* @if (Context.Session.GetString("UserRole") != "IB")
 {
     <a href="/Bom.cs/Create" class="btn btn-primary">+ Add New</a>
-}
+} *@
 
 <div class="container-fluid mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-dark fw-bold"><i class="bi bi-list-check"></i> Bill of Materials (BOM)</h2>
-        <a href="/Bom/Create" class="btn btn-dark">+ New BOM Entry</a>
+        @if (Context.Session.GetString("UserRole") != "IB")
+        {
+            <a href="/Bom/Create" class="btn btn-dark">+ New BOM Entry</a>
+        }
+        
     </div>
 
     <div class="card shadow-sm border-0">
@@ -32,7 +36,7 @@
                         <tr>
                             <td>@item.BOM_NO</td>
                             <td>@item.APEX_SALES_PART</td>
-                            @* <td>@item.Last</td> *@
+                            @* <td>@item.LAST</td>  *@
                             <td>@item.ELEMENT</td>
                             <td>@item.MATERIALDESC</td>
                             <td>@item.QUANTITY</td>

@@ -8,13 +8,15 @@ namespace ApexOMS_Web.Models
     {
         [Key]
         public int sl { get; set; }
+
         public string? user_id { get; set; }
         public string? user_name { get; set; }
         public string? user_pass { get; set; }
-        public string? Role { get; set; } // New Field
+
+        // This was missing! Add this line:
+        public int? status { get; set; }
+
+        public string? Role { get; set; }
         public int? active { get; set; }
     }
 }
-
-
-

@@ -1,0 +1,63 @@
+﻿@model ApexOMS_Web.Models.Bom
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow border-0">
+                <div class="card-header bg-dark text-white">
+                    <h4 class="mb-0"><i class="bi bi-plus-circle"></i> New BOM Entry</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">BOM Number</label>
+                                <input asp-for="BOM_NO" class="form-control" placeholder="e.g. BOM-10023" required />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Sales Part (Article)</label>
+                                <input asp-for="APEX_SALES_PART" class="form-control" placeholder="e.g. APX-99" required />
+                            </div>
+                            @* <div class="col-md-4">
+                                <label class="form-label fw-bold">Last (Mold)</label>
+                                <input asp-for="LAST" class="form-control" />
+                            </div> *@
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Element Name</label>
+                                <input asp-for="ELEMENT" class="form-control" placeholder="e.g. Upper Leather" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Material Description</label>
+                                <input asp-for="MATERIALDESC" class="form-control" />
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Quantity</label>
+                                <input asp-for="QUANTITY" type="number" step="0.01" class="form-control" />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">UOM</label>
+                                <select asp-for="UOM" class="form-select">
+                                    <option value="PRS">Pairs (PRS)</option>
+                                    <option value="SQFT">Square Feet (SQFT)</option>
+                                    <option value="MTR">Meters (MTR)</option>
+                                    <option value="KG">Kilograms (KG)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Rate</label>
+                                <input asp-for="RATE" type="number" step="0.01" class="form-control" />
+                            </div>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-top d-flex justify-content-between">
+                            <a href="/Bom/Index" class="btn btn-outline-secondary">Back to List</a>
+                            <button type="submit" class="btn btn-dark px-5">Save BOM Entry</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
