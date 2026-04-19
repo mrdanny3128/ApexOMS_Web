@@ -25,9 +25,11 @@
                         <th>Last</th>
                         <th>Element</th>
                         <th>Material Description</th>
-                        <th>Qty</th>
-                        <th>UOM</th>
+                        <th>Quantity</th>
+                        <th>Finish Type</th>
+                        <th>Unit Of Measures</th>
                         <th>Rate</th>
+                        <th>Entry Date</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,12 +38,14 @@
                         <tr>
                             <td>@item.BOM_NO</td>
                             <td>@item.APEX_SALES_PART</td>
-                            @* <td>@item.LAST</td>  *@
+                            <td>@item.LAST</td> 
                             <td>@item.ELEMENT</td>
                             <td>@item.MATERIALDESC</td>
                             <td>@item.QUANTITY</td>
+                            <td>@item.finish_type</td>
                             <td>@item.UOM</td>
                             <td>@item.RATE?.ToString("C")</td>
+                            <td>@item.CREATEDATE?.ToString("yyyy-MM-dd")</td>
                         </tr>
                     }
                 </tbody>

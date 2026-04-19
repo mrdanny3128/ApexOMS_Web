@@ -50,8 +50,9 @@ namespace ApexOMS_Web.Data
         public DbSet<ArticleLast> ArticleLasts { get; set; } // The new bridge
         public DbSet<Bom> Boms { get; set; }
         public DbSet<DashboardData> Dashboards { get; set; }
+        public DbSet<SampleOrder> SampleOrders { get; set; }
 
-     
+
 
         // Inside OnModelCreating:
 
@@ -62,6 +63,8 @@ namespace ApexOMS_Web.Data
             modelBuilder.Entity<ArticleLast>().ToTable("tbl_article_last");
             modelBuilder.Entity<Bom>().ToTable("tbl_BOM");  
             modelBuilder.Entity<DashboardData>().ToTable("DashboardData");
+            modelBuilder.Entity<SampleOrder>().ToTable("tbl_sample_order");
+
         }
     }
 }

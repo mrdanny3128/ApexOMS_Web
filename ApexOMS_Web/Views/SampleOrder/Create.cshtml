@@ -1,0 +1,82 @@
+﻿@model ApexOMS_Web.Models.SampleOrder
+
+<div class="container mt-4 mb-5">
+    <div class="card shadow border-0">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0"><i class="bi bi-file-earmark-plus"></i> New Sample Order Request</h4>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Create" method="post">
+
+                <div class="row g-3 mb-4">
+                    <h5 class="text-primary border-bottom pb-2">Basic Information</h5>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Sample Order No</label>
+                        <input asp-for="sample_order_no" class="form-control" placeholder="SO-2026-001" required />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Customer Name</label>
+                        <input asp-for="cust_name" class="form-control" placeholder="Enter Customer" required />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Apex Sales Part (Article)</label>
+                        <input asp-for="apex_sales_part" class="form-control" placeholder="Article Name/Code" />
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <h5 class="text-primary border-bottom pb-2">Technical Specifications</h5>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Last (Mold)</label>
+                        <input asp-for="last" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Pairs (Qty)</label>
+                        <input asp-for="pair" type="number" step="0.01" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Size</label>
+                        <input asp-for="size" class="form-control" placeholder="e.g. 42" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Season</label>
+                        <input asp-for="season" class="form-control" placeholder="Spring/Summer" />
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <h5 class="text-primary border-bottom pb-2">Timeline & Approval</h5>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Request Date</label>
+                        <input asp-for="request_date" type="date" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Delivery Date</label>
+                        <input asp-for="delivery_date" type="date" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Sample Status</label>
+                        <select asp-for="sample_status" class="form-select">
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                            <option value="On Hold">On Hold</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Approval</label>
+                        <select asp-for="approval" class="form-select">
+                            <option value="Pending">Pending</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-3 border-top d-flex justify-content-between">
+                    <a href="/SampleOrder/Index" class="btn btn-outline-secondary px-4">Cancel</a>
+                    <button type="submit" class="btn btn-primary px-5 fw-bold">Save Sample Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

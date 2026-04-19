@@ -14,6 +14,7 @@ namespace ApexOMS_Web.Models
         public string? BOM_NO { get; set; }
         public string? APEX_SALES_PART { get; set; }
         public string? LAST { get; set; }
+        public string? finish_type { get; set; }
         public string? REVISION { get; set; } // nchar(10) in your screenshot
 
         // Match the 'float' type in SQL
@@ -27,6 +28,7 @@ namespace ApexOMS_Web.Models
         public string? MATERIALDESC { get; set; }
         public string? UOM { get; set; }
         public int? ELEMENT_ID { get; set; }
+       
 
         public DateTime? CREATEDATE { get; set; }
         public string? user_id { get; set; }

@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<ApexOMS_Web.Models.SampleOrder>
+
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary fw-bold"><i class="bi bi-calendar-check"></i> Sample Development Orders</h2>
+        @if (Context.Session.GetString("UserRole") != "IB")
+        {
+            <a href="/SampleOrder/Create" class="btn btn-primary fw-bold">+ New Sample Request</a>
+        }
+    </div>
+
+    <div class="card shadow border-0">
+        <div class="card-body p-0">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Order No</th>
+                        <th>Customer</th>
+                        <th>Article</th>
+                        <th>Pairs</th>
+                        <th>Status</th>
+                        <th>Delivery Date</th>
+                        <th>Approval</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><strong>@item.sample_order_no</strong></td>
+                            <td>@item.cust_name</td>
+                            <td>@item.apex_sales_part</td>
+                            <td>@item.pair</td>
+                            <td><span class="badge bg-info text-dark">@item.sample_status</span></td>
+                            <td>@item.delivery_date?.ToShortDateString()</td>
+                            <td>
+                                <span class="badge @(item.approval == "Approved" ? "bg-success" : "bg-warning")">
+                                    @item.approval
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
