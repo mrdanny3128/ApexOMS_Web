@@ -6,8 +6,15 @@
             <h4 class="mb-0">New Dashboard Entry</h4>
         </div>
         <div class="card-body p-4">
-            <form asp-action="Create" method="post">
+            <form asp-action="Create" method="post" enctype="multipart/form-data">
                 <div class="row g-3">
+
+                    @* <div class="col-md-4"> *@
+                        @* <label class="form-label fw-bold">Shop Order Number</label> *@
+                        <input type='hidden' asp-for="shop_no_generated" class="form-control" placeholder="Auto-generated" readonly /> 
+                        @* <span class="text-muted small">System will assign the next APX ID.</span> *@
+                    @* </div> *@
+
                     <div class="col-md-4">
                         <label class="form-label fw-bold">Customer Name</label>
                         <input asp-for="cust_name" class="form-control" required />
@@ -29,26 +36,38 @@
                         <label class="form-label fw-bold">Customer Delivery Date</label>
                         <input asp-for="cd_date" type="date" class="form-control" />
                     </div>
+
                     <div class="col-md-4">
                         <label class="form-label fw-bold">Product Delivery Date</label>
                         <input asp-for="pd_date" type="date" class="form-control" />
                     </div>
+
                     <div class="col-md-4">
                         <label class="form-label fw-bold">Shipment Date</label>
                         <input asp-for="shipment_date" type="date" class="form-control" />
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label class="form-label fw-bold">Shipment Quantity</label>
                         <input asp-for="shipment_quantity" type="number" class="form-control" />
                     </div>
-                    <div class="col-md-3">
+                    
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Total Qunatity</label>
+                        <input asp-for="order_qty" class="form-control" required />
+                    </div>
+
+                    <div class="col-md-4">
                         <label class="form-label fw-bold">Last Name</label>
                         <input asp-for="last" class="form-control" />
                     </div>
-                    <div class="col-md-3">
+
+                    <div class="col-md-4">
                         <label class="form-label fw-bold">Knife Status</label>
-                        <input asp-for="knife_status" class="form-control" />
+                        <select asp-for="knife_status" class="form-control">
+                             <option value="Available">Available</option>
+                             <option value="Unavailable">Unavailable</option>
+                        </select>
                     </div>
                     @* <div class="col-md-3">
                         <label class="form-label fw-bold">Tech Sheet</label>
@@ -65,12 +84,31 @@
                         </select>
                     </div>
                 </div>
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <label class="form-label fw-bold">Upload Product Image</label>
+                        <input asp-for="ImageFile" type="file" class="form-control" accept="image/*" />
+                        <small class="text-muted">Max size 2MB (JPG, PNG)</small>
+                    </div>
+                </div>
 
                 <div class="mt-4 pt-3 border-top">
                     <a href="/Dashboard/Index" class="btn btn-secondary">Back to List</a>
                     <button type="submit" class="btn btn-info text-white px-5">Save Entry</button>
                 </div>
+             
             </form>
+            @* <form asp-action="Create" method="post" enctype="multipart/form-data">
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <label class="form-label fw-bold">Upload Product Image</label>
+                        <input asp-for="ImageFile" type="file" class="form-control" accept="image/*" />
+                        <small class="text-muted">Max size 2MB (JPG, PNG)</small>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-info text-white mt-3">Save Entry</button>
+            </form> *@
         </div>
     </div>
 </div>

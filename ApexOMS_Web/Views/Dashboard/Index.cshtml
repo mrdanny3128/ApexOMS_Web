@@ -21,13 +21,17 @@
                 <thead class="table-info">
                     <tr>
                         <th>Order #</th>
+                        <th>Shop Order</th>
                         <th>Customer</th>
                         <th>Sample Order</th>
                         <th>Tech Sheet Status</th>
+                        <th>Total Order Quantity</th>
                         <th>Customer Delivery Date</th>
                         <th>Product Delivery Date</th>
                         <th>Shipment Date</th>
+                        <th>Shipment Quantity</th>
                         <th>Status</th>
+                        <th>Picture</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,13 +39,26 @@
                     {
                         <tr>
                             <td>@item.shop_order_number</td>
+                            <td>@item.shop_no_generated</td>
                             <td>@item.cust_name</td>
                             <td>@item.sample_order_no</td>
                             <td>@item.tech_sheet_status</td>
+                            <td>@item.order_qty</td>
                             <td>@item.cd_date?.ToShortDateString()</td>
                             <td>@item.pd_date?.ToShortDateString()</td>
                             <td>@item.shipment_date?.ToShortDateString()</td>
+                            <td>@item.cust_name</td>
                             <td><span class="badge bg-secondary">@item.approval</span></td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.image_path))
+                                {
+                                    <img src="@item.image_path" alt="Shoe" style="width:60px; height:60px; object-fit:cover; border-radius:5px;" />
+                                }
+                                else
+                                {
+                                    <span class="text-muted small">No Image</span>
+                                }
+                            </td>
                         </tr>
                     }
                 </tbody>
