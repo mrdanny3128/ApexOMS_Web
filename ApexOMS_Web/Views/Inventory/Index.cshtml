@@ -47,10 +47,15 @@
                             <td>@item.style_name</td>
                             <td>@item.part_color</td>
                             <td>@item.totalqty?.ToString("N0")</td>
+                            @* <td>@item.order_status</td> *@
                             <td>
-                                @if (item.order_status == 1)
+                                @if (item.order_status == "1")
                                 {
-                                    <span class="badge bg-success">Active</span>
+                                    <span class="badge bg-success">Pending</span>
+                                }
+                                else if(item.order_status=="2")
+                                {
+                                    <span class="badge bg-success">Approved</span>
                                 }
                                 else
                                 {

@@ -13,7 +13,7 @@ namespace ApexOMS_Web.Models
         public string? style_name { get; set; }
         public string? part_color { get; set; }
         public int? totalqty { get; set; }
-        public int? order_status { get; set; }
+        public string? order_status { get; set; }
         public DateTime? order_receive_date { get; set; }
     }
 }

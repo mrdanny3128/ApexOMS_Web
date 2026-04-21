@@ -43,7 +43,7 @@ namespace ApexOMS_Web.Controllers
                 Random rnd = new Random();
                 order.order_id = rnd.Next(100000, 999999);
                 order.order_receive_date = DateTime.Now;
-                order.order_status = 1;
+                //order.order_status = 1;
 
                 _context.InventoryOrders.Add(order); // Prepare the Insert
                 _context.SaveChanges();              // Execute the Insert

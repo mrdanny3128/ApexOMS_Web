@@ -21,6 +21,16 @@
     </div>
 
     <div class="mb-3">
+        <label class="form-label">Status</label>
+        @* <input type="number" name="order_status" class="form-control" required /> *@
+        <select name="order_status" class="form-select">
+            <option value="1">Pending</option>
+            <option value="2">Approved</option>
+            <option value="0">Rejected</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
         <label class="form-label">Total Quantity</label>
         <input type="number" name="totalqty" class="form-control" required />
     </div>
