@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
 
 namespace ApexOMS_Web.Models
 {
@@ -27,5 +28,11 @@ namespace ApexOMS_Web.Models
         public double? productionQty { get; set; }
         public string? user_name { get; set; }
         public DateTime? entry_date { get; set; }
+
+        // ... inside SampleOrder class ...
+        public string? image_path { get; set; }
+
+        [NotMapped]
+        public IFormFile? ImageFile { get; set; }
     }
 }

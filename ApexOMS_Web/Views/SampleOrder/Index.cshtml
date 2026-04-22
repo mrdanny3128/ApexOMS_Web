@@ -21,7 +21,9 @@
                         <th>Pairs</th>
                         <th>Status</th>
                         <th>Delivery Date</th>
-                        <th>Approval</th>
+                        <th>Approval</th>                   
+                        <th>Picture</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,6 +40,15 @@
                                 <span class="badge @(item.approval == "Approved" ? "bg-success" : "bg-warning")">
                                     @item.approval
                                 </span>
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.image_path))
+                                {
+                                    <img src="@item.image_path" style="width:60px; height:60px; object-fit:cover; border-radius:5px;" />
+                                }
+                            </td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.sl" class="btn btn-sm btn-warning">Edit</a>
                             </td>
                         </tr>
                     }

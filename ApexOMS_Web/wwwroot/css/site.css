@@ -18,5 +18,16 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-image: url('../images/bg4.png');
+    /* This centers the image */
+    background-position: center;
+    /* This prevents the image from repeating */
+    background-repeat: no-repeat;
+    /* CRITICAL: This stretches the image to cover the entire screen */
+    background-size: cover;
+    /* This keeps the background fixed while you scroll the content */
+    background-attachment: fixed;
+    /* Ensures the body takes up at least the full height of the browser */
+    min-height: 100vh;
 }

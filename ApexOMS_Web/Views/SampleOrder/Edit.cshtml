@@ -1,0 +1,133 @@
+﻿@model ApexOMS_Web.Models.SampleOrder
+
+<div class="container mt-4 mb-5">
+    <div class="card shadow border-0">
+        <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+            <h4 class="mb-0 fw-bold"><i class="bi bi-pencil-square"></i> Update Sample Order: @Model.sample_order_no</h4>
+            <span class="badge bg-dark">ID: @Model.sl</span>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Edit" method="post" enctype="multipart/form-data">
+
+                <input type="hidden" asp-for="sl" />
+                <input type="hidden" asp-for="image_path" />
+
+                <ul class="nav nav-tabs" id="sampleTab" role="tablist">
+                    <li class="nav-item">
+                        <button class="nav-link active fw-bold" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button">Basic Info</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link fw-bold" id="tech-tab" data-bs-toggle="tab" data-bs-target="#tech" type="button">Technical Specs</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link fw-bold" id="status-tab" data-bs-toggle="tab" data-bs-target="#status" type="button">Dates & Status</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content border-start border-end border-bottom p-4 bg-light-50" id="sampleTabContent">
+
+                    <div class="tab-pane fade show active" id="basic" role="tabpanel">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Sample Order No</label>
+                                <input asp-for="sample_order_no" class="form-control" readonly />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Customer Name</label>
+                                <input asp-for="cust_name" class="form-control" required />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Apex Sales Part</label>
+                                <input asp-for="apex_sales_part" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="tech" role="tabpanel">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Last (Mold)</label>
+                                <input asp-for="last" class="form-control" />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Pairs</label>
+                                <input asp-for="pair" class="form-control" type="number" step="0.01" />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Size</label>
+                                <input asp-for="size" class="form-control" />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Season</label>
+                                <input asp-for="season" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="status" role="tabpanel">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Request Date</label>
+                                <input asp-for="request_date" type="date" class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Delivery Date</label>
+                                <input asp-for="delivery_date" type="date" class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Sample Status</label>
+                                <select asp-for="sample_status" class="form-select">
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="On Hold">On Hold</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Approval</label>
+                                <select asp-for="approval" class="form-select">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Approved">Approved</option>
+                                    <option value="Rejected">Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3 align-items-center mt-4 border-top pt-4">
+                    <div class="col-md-3 text-center">
+                        <label class="form-label fw-bold d-block mb-2">Current Image</label>
+                        @if (!string.IsNullOrEmpty(Model.image_path))
+                        {
+                            <img src="@Model.image_path" class="shadow-sm" style="width:130px; height:130px; object-fit:cover; border-radius:10px; border:2px solid #ffc107;" />
+                        }
+                        else
+                        {
+                            <div class="border rounded d-flex align-items-center justify-content-center bg-white" style="width:130px; height:130px; margin:0 auto;">
+                                <span class="text-muted small">No Image</span>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="col-md-9">
+                        <label class="form-label fw-bold text-primary">Change Product Image</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-warning"><i class="bi bi-camera"></i></span>
+                            <input asp-for="ImageFile" type="file" class="form-control" accept="image/*" />
+                        </div>
+                        <p class="text-muted small mt-2">Uploading a new file will automatically replace the existing sample photo.</p>
+                    </div>
+                </div>
+
+                <div class="mt-5 pt-3 border-top d-flex justify-content-between">
+                    <a href="/SampleOrder/Index" class="btn btn-outline-secondary px-4">
+                        <i class="bi bi-arrow-left"></i> Back to List
+                    </a>
+                    <button type="submit" class="btn btn-warning px-5 fw-bold shadow">
+                        <i class="bi bi-save"></i> Save Sample Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

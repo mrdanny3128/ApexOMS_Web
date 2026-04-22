@@ -25,6 +25,7 @@
                         <th>Customer</th>
                         <th>Sample Order</th>
                         <th>Tech Sheet Status</th>
+                        <th>Knife Status</th>
                         <th>Total Order Quantity</th>
                         <th>Customer Delivery Date</th>
                         <th>Product Delivery Date</th>
@@ -32,6 +33,7 @@
                         <th>Shipment Quantity</th>
                         <th>Status</th>
                         <th>Picture</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,6 +45,7 @@
                             <td>@item.cust_name</td>
                             <td>@item.sample_order_no</td>
                             <td>@item.tech_sheet_status</td>
+                            <td>@item.knife_status</td>
                             <td>@item.order_qty</td>
                             <td>@item.cd_date?.ToShortDateString()</td>
                             <td>@item.pd_date?.ToShortDateString()</td>
@@ -58,6 +61,11 @@
                                 {
                                     <span class="text-muted small">No Image</span>
                                 }
+                            </td>
+                            <td>
+                                <a href="/Dashboard/Edit/@item.shop_order_number" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                </a>
                             </td>
                         </tr>
                     }

@@ -24,11 +24,15 @@ namespace ApexOMS_Web.Controllers
             return View(list);
         }
 
+
+
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
+
+
 
         [HttpPost]
         public IActionResult Create(DashboardData data)
@@ -38,7 +42,7 @@ namespace ApexOMS_Web.Controllers
             {
                 return Forbid(); // Or return Content("Access Denied");
             }
-           // ModelState.Remove("shop_no_generated");
+            // ModelState.Remove("shop_no_generated");
             if (ModelState.IsValid)
             {
                 // HANDLE IMAGE UPLOAD
@@ -67,6 +71,58 @@ namespace ApexOMS_Web.Controllers
                 return RedirectToAction("Index");
             }
             return View(data);
+        }
+
+        [HttpGet]
+        // 1. GET: Show the Edit Form
+        public IActionResult Edit(int id)
+        {
+            var data = _context.Dashboards.Find(id);
+            if (data == null) return NotFound();
+            return View(data);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(DashboardData updatedData)
+        {
+            // 1. Check if the ID is actually coming from the form
+            if (updatedData.shop_order_number == 0)
+            {
+                return Content("Error: The ID was not passed correctly from the View.");
+            }
+
+            // 2. Clear validation for fields we aren't changing manually (like the ImageFile)
+            ModelState.Remove("ImageFile");
+            ModelState.Remove("shop_no_generated");
+
+            // 3. Use the 'Attach' method - this is the strongest way to update
+            _context.Dashboards.Attach(updatedData);
+            _context.Entry(updatedData).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+
+            // 4. Handle the image path specifically
+            if (updatedData.ImageFile != null)
+            {
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(updatedData.ImageFile.FileName);
+                string path = Path.Combine(wwwRootPath, "uploads", fileName);
+
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    updatedData.ImageFile.CopyTo(fileStream);
+                }
+                updatedData.image_path = "/uploads/" + fileName;
+            }
+            else
+            {
+                // If no new image, tell EF to ignore this column so it doesn't overwrite with NULL
+                _context.Entry(updatedData).Property(x => x.image_path).IsModified = false;
+            }
+
+            // 5. Tell EF never to try and update the auto-generated Shop Order No
+            _context.Entry(updatedData).Property(x => x.shop_no_generated).IsModified = false;
+
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
