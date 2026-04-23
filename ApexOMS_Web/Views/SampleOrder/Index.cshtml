@@ -35,12 +35,26 @@
                             <td>@item.apex_sales_part</td>
                             <td>@item.pair</td>
                             <td><span class="badge bg-info text-dark">@item.sample_status</span></td>
-                            <td>@item.delivery_date?.ToShortDateString()</td>
+                            <td>@item.delivery_date?.ToShortDateString()</td>                      
                             <td>
-                                <span class="badge @(item.approval == "Approved" ? "bg-success" : "bg-warning")">
-                                    @item.approval
-                                </span>
-                            </td>
+                                @if (item.approval == "Approved")
+                                {
+                                    <span class="badge bg-success px-3 shadow-sm">
+                                        <i class="bi bi-check-circle me-1"></i> Approved
+                                    </span>
+                                }
+                                else if (item.approval == "Pending")
+                                {
+                                    <span class="badge bg-warning text-dark px-3 shadow-sm">
+                                        <i class="bi bi-clock me-1"></i> Pending
+                                    </span>
+                                }
+                                else if (item.approval == "Rejected")
+                                {
+                                    <span class="badge bg-danger px-3 shadow-sm">
+                                        <i class="bi bi-x-circle me-1"></i> Rejected
+                                    </span>
+                                }
                             <td>
                                 @if (!string.IsNullOrEmpty(item.image_path))
                                 {

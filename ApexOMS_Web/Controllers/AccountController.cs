@@ -42,21 +42,7 @@ namespace ApexOMS_Web.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public IActionResult Login(string txtUser, string txtPass)
-        //{
-        //    var user = _context.Users.FirstOrDefault(u => u.user_id == txtUser && u.user_pass == txtPass && u.active == 1);
-
-        //    if (user != null)
-        //    {
-        //        // Store the Role in a Session variable
-        //        HttpContext.Session.SetString("UserRole", user.Role ?? "IB");
-        //        HttpContext.Session.SetString("UserName", user.user_name ?? "User");
-
-        //        return RedirectToAction("Index", "Home");
-        //    }
-        //    return View();
-        //}
+     
         // --- REGISTRATION ---
 
         [HttpGet]
@@ -65,40 +51,32 @@ namespace ApexOMS_Web.Controllers
             return View();
         }
 
+       
         [HttpPost]
-        public IActionResult Register(User newUser)
+        public IActionResult Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                newUser.status = 0; // Waiting for Admin
-                newUser.Role = "Pending";
-                newUser.active = 1;
+                var newUser = new User // This is your tbl_user entity
+                {
+                    user_id = model.user_id,
+                    user_name = model.user_name,
+                    user_email = model.user_email,
+                    user_pass = model.user_pass, // Note: In a real app, hash this password!
+                    Role = model.Role,
+                    active = 1,
+                    status = 0
+                };
 
                 _context.Users.Add(newUser);
                 _context.SaveChanges();
-
-                ViewBag.Message = "Registration successful! Please wait for Super Admin approval.";
-                return View();
+                return RedirectToAction("Login");
             }
-            return View(newUser);
+            return View(model);
         }
-        //[HttpPost]
-        //public IActionResult Register(User newUser)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        // Set default values
-        //        newUser.active = 1;
+   
 
-        //        _context.Users.Add(newUser);
-        //        _context.SaveChanges();
 
-        //        return RedirectToAction("Login");
-        //    }
-        //    return View(newUser);
-        //}
-
-        
         public IActionResult UserList()
         {
             // Security: Only SuperAdmin can see this
@@ -109,18 +87,35 @@ namespace ApexOMS_Web.Controllers
             return View(users);
         }
 
+   
         [HttpPost]
-        public IActionResult ApproveUser(int id, string role)
+        public IActionResult ApproveUser([FromBody] UserApprovalDto data)
         {
-            var user = _context.Users.Find(id);
+            if (data == null) return BadRequest();
+
+            var user = _context.Users.Find(data.sl);
             if (user != null)
             {
-                user.status = 1; // Approve
-                user.Role = role; // Assign Department
+                user.Role = data.Role;
+
+                // Convert the string from JavaScript into the int the DB expects
+                if (data.status == "Approved")
+                {
+                    user.status = 1;
+                    user.active = 1;
+                }
+                else if (data.status == "Rejected")
+                {
+                    user.status = 2;
+                    user.active = 0;
+                }
+
                 _context.SaveChanges();
+                return Ok();
             }
-            return RedirectToAction("UserList");
+            return BadRequest();
         }
+
         // --- LOGOUT ---
 
         public IActionResult Logout()
@@ -129,5 +124,12 @@ namespace ApexOMS_Web.Controllers
             // Later, when we add Authentication, we will clear the cookie here.
             return RedirectToAction("Login");
         }
+
     }
+}
+public class UserApprovalDto
+{
+    public int? sl { get; set; }
+    public string? Role { get; set; }
+    public string? status { get; set; }
 }

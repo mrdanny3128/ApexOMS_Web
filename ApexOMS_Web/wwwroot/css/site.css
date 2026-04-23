@@ -31,3 +31,39 @@ body {
     /* Ensures the body takes up at least the full height of the browser */
     min-height: 100vh;
 }
+/* Container for the registration card */
+.registration-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* The Professional Glass Card */
+.glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 450px;
+    padding: 2.5rem;
+    transition: transform 0.3s ease;
+}
+
+    .glass-card:hover {
+        transform: translateY(-5px); /* Interaction: lifts slightly on hover */
+    }
+
+/* Styled Inputs */
+.form-floating > .form-control {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+}
+
+    .form-floating > .form-control:focus {
+        border-color: #ffc107; /* Apex Yellow */
+        box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+    }

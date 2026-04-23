@@ -69,10 +69,7 @@
                              <option value="Unavailable">Unavailable</option>
                         </select>
                     </div>
-                    @* <div class="col-md-3">
-                        <label class="form-label fw-bold">Tech Sheet</label>
-                        <input asp-for="tech_sheet_status" class="form-control" />
-                    </div> *@
+                    
                     <div class="col-md-4">
                         <label class="form-label fw-bold">Tech Sheet Status</label>
                         <select asp-for="tech_sheet_status" class="form-select">
@@ -98,17 +95,7 @@
                 </div>
              
             </form>
-            @* <form asp-action="Create" method="post" enctype="multipart/form-data">
-                <div class="row g-3">
-                    <div class="col-md-12">
-                        <label class="form-label fw-bold">Upload Product Image</label>
-                        <input asp-for="ImageFile" type="file" class="form-control" accept="image/*" />
-                        <small class="text-muted">Max size 2MB (JPG, PNG)</small>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-info text-white mt-3">Save Entry</button>
-            </form> *@
+           
         </div>
     </div>
 </div>
