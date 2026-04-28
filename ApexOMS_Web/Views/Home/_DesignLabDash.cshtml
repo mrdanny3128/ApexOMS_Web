@@ -1,4 +1,4 @@
-﻿@* Views/Home/_DesignLabDash.cshtml *@
+﻿@* Views/Home/_DesignLabDash.cshtml
 <div class="text-center mt-5">
     <h1 class="fw-bold">Welcome, Design Lab</h1>
     <hr />
@@ -10,5 +10,139 @@
         <a href="/Dashboard/Index" class="btn btn-primary btn-lg shadow">Update DashBoard</a>
         <a href="/Bom/Index" class="btn btn-primary btn-lg shadow">Update BOM</a>
         <a href="/SampleOrder/Index" class="btn btn-primary btn-lg shadow w-100 mb-3">Manage Sample Orders</a>
+    </div>
+</div> *@
+
+@{
+    ViewData["Title"] = "Design Lab Workspace";
+}
+
+<style>
+    /* Professional background & container */
+    .workspace-bg {
+        min-height: 90vh;
+        padding-top: 50px;
+    }
+
+    /* Card Styling */
+    .module-card {
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border: none;
+        border-radius: 15px;
+        transition: all 0.3s ease;
+        text-decoration: none !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 30px;
+        height: 100%;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .module-card:hover {
+        transform: translateY(-10px);
+        background: #fff;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    }
+
+    /* Icon styling */
+    .icon-box {
+        width: 70px;
+        height: 70px;
+        background-color: rgba(13, 110, 253, 0.1);
+        color: #0d6efd;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        margin-bottom: 20px;
+        transition: 0.3s;
+    }
+
+    .module-card:hover .icon-box {
+        background-color: #0d6efd;
+        color: #fff;
+    }
+
+    .module-title {
+        color: #333;
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+    }
+
+    .module-desc {
+        color: #777;
+        font-size: 0.85rem;
+        text-align: center;
+    }
+
+    .workspace-header {
+        border-bottom: 3px solid #0d6efd;
+        display: inline-block;
+        padding-bottom: 10px;
+        margin-bottom: 40px;
+    }
+</style>
+
+<div class="container workspace-bg">
+    <div class="text-center">
+        <h2 class="fw-bold text-dark">Welcome, <span class="text-primary">Design Lab</span></h2>
+        <h5 class="workspace-header text-secondary text-uppercase small ls-2">Order Management System</h5>
+    </div>
+
+    <div class="row g-4 mt-2 justify-content-center">
+        <div class="col-md-4 col-lg-3">
+            <a href="/Inventory/Index" class="module-card border-bottom border-success border-4">
+                <div class="icon-box">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+                <div class="module-title text-success">Update Inventory</div>
+                <p class="module-desc">Manage raw materials and stock levels.</p>
+            </a>
+        </div>
+
+        <div class="col-md-4 col-lg-3">
+            <a href="/Article/Index" class="module-card border-bottom border-warning border-4">
+                <div class="icon-box">
+                    <i class="bi bi-file-earmark-text"></i>
+                </div>
+                <div class="module-title text-warning">Update Articles</div>
+                <p class="module-desc">Edit product specifications and codes.</p>
+            </a>
+        </div>
+
+        <div class="col-md-4 col-lg-3">
+            <a href="/Dashboard/Index" class="module-card border-bottom border-info border-4">
+                <div class="icon-box">
+                    <i class="bi bi-speedometer2"></i>
+                </div>
+                <div class="module-title text-info">Update Dashboard</div>
+                <p class="module-desc">Real-time production tracking overview.</p>
+            </a>
+        </div>
+
+        <div class="col-md-4 col-lg-3">
+            <a href="/Bom/Index" class="module-card border-bottom border-dark border-4">
+                <div class="icon-box">
+                    <i class="bi bi-list-check"></i>
+                </div>
+                <div class="module-title text-dark">Update BOM</div>
+                <p class="module-desc">Manage Bill of Materials and components.</p>
+            </a>
+        </div>
+
+        <div class="col-md-4 col-lg-3">
+            <a href="/SampleOrder/Index" class="module-card border-bottom border-primary border-4">
+                <div class="icon-box">
+                    <i class="bi bi-cart-check"></i>
+                </div>
+                <div class="module-title text-primary">Manage Samples</div>
+                <p class="module-desc">Process and track new sample requests.</p>
+            </a>
+        </div>
     </div>
 </div>

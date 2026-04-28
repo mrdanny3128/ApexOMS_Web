@@ -1,0 +1,50 @@
+﻿
+/* 1. Perfect Search Bar Alignment */
+.dataTables_filter {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.dataTables_filter input {
+    width: 400px !important;
+    border-radius: 25px !important;
+    padding: 10px 20px !important;
+    border: 2px solid #0dcaf0 !important; /* Matches 'text-info' theme */
+    outline: none;
+    transition: 0.3s;
+}
+
+/* 2. Professional Table Scrolling */
+.table-container {
+    max-height: 70vh;
+    overflow: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* 3. Sticky Header (Crucial for 14 columns) */
+#articleTable thead th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #0dcaf0;
+    color: white;
+    white-space: nowrap;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* 4. Row Styling */
+#articleTable tbody td {
+    font-size: 0.9rem;
+    vertical-align: middle;
+    white-space: nowrap; /* Prevents text wrapping from making rows too tall */
+}
+
+/* 5. Highlight the "Order #" column */
+.order-col {
+    font-weight: bold;
+    color: #0dcaf0;
+}

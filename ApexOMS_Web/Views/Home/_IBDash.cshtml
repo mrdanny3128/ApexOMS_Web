@@ -1,4 +1,4 @@
-﻿<div class="row">
+﻿@* <div class="row">
     <h2 class="text-info">International Business (IB) View</h2>
     <p>View-Only Access</p>
     <a href="/Inventory/Index" class="btn btn-outline-primary m-2">View Inventory Reports</a>
@@ -7,4 +7,317 @@
     <a href="/Dashboard/Index" class="btn btn-outline-info m-2">View DashBoard</a>
     <a href="/SampleOrder/Index" class="btn btn-outline-primary m-2">View Samples</a>
 
+</div> *@
+
+@* @{
+    ViewData["Title"] = "IB Operations Portal";
+}
+
+<style>
+    /* Content Wrapper */
+    .ib-wrapper {
+        display: flex;
+        min-height: 85vh;
+        background: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(0,0,0,0.05);
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+
+    /* Side Navigation */
+    .ib-sidebar {
+        width: 280px;
+        background: #2c3e50; /* Dark Executive Blue */
+        padding: 30px 20px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .ib-sidebar-title {
+        color: #ecf0f1;
+        font-weight: 800;
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+        margin-bottom: 5px;
+    }
+
+    .ib-sidebar-subtitle {
+        color: #bdc3c7;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        margin-bottom: 40px;
+    }
+
+    .ib-nav-link {
+        color: #bdc3c7;
+        text-decoration: none;
+        padding: 15px 20px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        transition: 0.3s;
+        font-weight: 500;
+    }
+
+        .ib-nav-link i {
+            font-size: 1.2rem;
+            margin-right: 15px;
+        }
+
+        .ib-nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transform: translateX(5px);
+        }
+
+    /* Main Content Area */
+    .ib-main {
+        flex: 1;
+        padding: 50px;
+        background: #fff;
+    }
+
+    .ib-welcome-card {
+        border-left: 5px solid #2980b9;
+        padding-left: 20px;
+        margin-bottom: 40px;
+    }
+
+    .ib-info-box {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 25px;
+        margin-top: 20px;
+        border: 1px dashed #dee2e6;
+    }
+</style>
+
+<div class="container-fluid mt-4 px-5">
+    <div class="ib-wrapper shadow-lg">
+        <div class="ib-sidebar">
+            <div class="ib-sidebar-title text-uppercase">IB Portal</div>
+            <div class="ib-sidebar-subtitle">Analytics & Reporting</div>
+
+            <nav class="mt-4">
+                <a href="/Inventory/Index" class="ib-nav-link">
+                    <i class="bi bi-graph-up-arrow"></i> Inventory Reports
+                </a>
+                <a href="/Bom/Index" class="ib-nav-link">
+                    <i class="bi bi-file-earmark-spreadsheet"></i> Master BOM
+                </a>
+                <a href="/Article/Index" class="ib-nav-link">
+                    <i class="bi bi-search"></i> Article Search
+                </a>
+                <a href="/Dashboard/Index" class="ib-nav-link">
+                    <i class="bi bi-display"></i> Live Dashboard
+                </a>
+                <a href="/SampleOrder/Index" class="ib-nav-link">
+                    <i class="bi bi-box-seam"></i> Sample Tracking
+                </a>
+            </nav>
+
+            <div class="mt-auto pt-5">
+                <p class="text-muted small px-3">Logged in as IB Department</p>
+            </div>
+        </div>
+
+        <div class="ib-main">
+            <div class="ib-welcome-card">
+                <h2 class="fw-bold">International Business View</h2>
+                <p class="text-secondary mb-0">Authorized Personnel: Read-Only Access</p>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <h5 class="fw-bold mb-3">Quick Navigation</h5>
+                    <p class="text-muted">Welcome to the central IB operations hub. Select a module from the left sidebar to view real-time production and inventory analytics. All data is synchronized with the Apex factory floor.</p>
+
+                    <div class="ib-info-box">
+                        <h6 class="fw-bold text-primary"><i class="bi bi-info-circle me-2"></i>System Note</h6>
+                        <p class="small mb-0 text-dark">You have <strong>Viewer Rights</strong>. You can export data to Excel but cannot modify production records.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex align-items-center justify-content-center">
+                    <img src="~/images/apex_logo.png" style="width: 150px; opacity: 0.2; filter: grayscale(100%);" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div> *@
+
+
+@{
+    ViewData["Title"] = "IB Analytics Portal";
+}
+
+<style>
+    /* 1. Page Header with Glassmorphism */
+    .ib-header {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+        margin-bottom: 40px;
+    }
+
+    /* 2. Action Tiles */
+    .ib-tile {
+        background: #fff;
+        border-radius: 12px;
+        padding: 25px;
+        text-decoration: none !important;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        border: 1px solid #edf2f7;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .ib-tile:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            border-color: #3182ce;
+        }
+
+    /* 3. Icon Accent */
+    .tile-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-right: 20px;
+        background: #f7fafc;
+        color: #4a5568;
+        transition: 0.3s;
+    }
+
+    .ib-tile:hover .tile-icon {
+        background: #3182ce;
+        color: #fff;
+    }
+
+    .tile-content h6 {
+        margin-bottom: 2px;
+        color: #2d3748;
+        font-weight: 700;
+    }
+
+    .tile-content p {
+        margin-bottom: 0;
+        font-size: 0.8rem;
+        color: #718096;
+    }
+
+    /* 4. "Live" Indicator */
+    .live-dot {
+        height: 8px;
+        width: 8px;
+        background-color: #48bb78;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 5px;
+        animation: pulse 2s infinite;
+    }
+
+    @@keyframes pulse {
+        0% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(72, 187, 120, 0.7);
+        }
+
+        70% {
+            transform: scale(1);
+            box-shadow: 0 0 0 10px rgba(72, 187, 120, 0);
+        }
+
+        100% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(72, 187, 120, 0);
+        }
+    }
+</style>
+
+<div class="container py-5">
+    <div class="ib-header d-flex justify-content-between align-items-center">
+        <div>
+            <h2 class="fw-bold text-dark mb-1">IB Operations Console</h2>
+            <p class="text-muted mb-0 small">
+                <span class="live-dot"></span> System Online | Ready-Only Environment
+            </p>
+        </div>
+        <div class="text-end">
+            <img src="~/images/apex_logo.png" style="width: 100px;" />
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <a href="/Inventory/Index" class="ib-tile h-100">
+                <div class="tile-icon"><i class="bi bi-bar-chart-line"></i></div>
+                <div class="tile-content">
+                    <h4>Inventory Reports</h4>
+                    <p>Analyze current stock levels and raw material availability.</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6">
+            <a href="/Bom/Index" class="ib-tile h-100">
+                <div class="tile-icon"><i class="bi bi-layers"></i></div>
+                <div class="tile-content">
+                    <h4>Master BOM View</h4>
+                    <p>Full access to Bill of Materials for all active articles.</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6">
+            <a href="/Article/Index" class="ib-tile h-100">
+                <div class="tile-icon"><i class="bi bi-search"></i></div>
+                <div class="tile-content">
+                    <h4>Article Search</h4>
+                    <p>Lookup technical specs and shoe models across departments.</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6">
+            <a href="/Dashboard/Index" class="ib-tile h-100">
+                <div class="tile-icon"><i class="bi bi-cpu"></i></div>
+                <div class="tile-content">
+                    <h4>Production Tracking</h4>
+                    <p>Live tracking of factory floor status and order progress.</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6">
+            <a href="/SampleOrder/Index" class="ib-tile h-100">
+                <div class="tile-icon"><i class="bi bi-box-seam"></i></div>
+                <div class="tile-content">
+                    <h4>Sample Tracking</h4>
+                    <p>Monitor the lifecycle of new sample orders and approvals.</p>
+                </div>
+            </a>
+        </div>
+
+      @*   <div class="col-12 mt-5">
+            <div class="p-4 rounded-4 bg-dark text-white shadow-sm d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="mb-1 fw-bold">Need Assistance?</h6>
+                    <p class="small mb-0 opacity-75">Contact System Admin for elevated permissions or data export issues.</p>
+                </div>
+                <button class="btn btn-outline-light btn-sm px-4">Contact IT</button>
+            </div>
+        </div> *@
+    </div>
 </div>

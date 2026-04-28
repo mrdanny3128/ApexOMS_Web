@@ -1,20 +1,18 @@
-﻿@model IEnumerable<ApexOMS_Web.Models.ArticleLast>
+﻿
+@* @model IEnumerable<ApexOMS_Web.Models.ArticleLast>
 
-
-
-<div class="container-fluid mt-4">
+<div class="container-fluid mt-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-primary fw-bold"><i class="bi bi-layers-half"></i> Article & Last Master</h2>
         @if (Context.Session.GetString("UserRole") != "IB")
         {
             <a href="/Article/Create" class="btn btn-success px-4">+ Add New Article</a>
         }
-        
     </div>
 
     <div class="card shadow-sm border-0">
         <div class="card-body">
-            <table class="table table-hover">
+            <table id="articleTable" class="table table-hover">
                 <thead class="table-light">
                     <tr>
                         <th>Sales Part</th>
@@ -45,7 +43,7 @@
                                     <span class="badge bg-danger">Inactive</span>
                                 }
                             </td>
-                            <td>@item.entry_date?.ToString("yyyy-MM-dd HH:mm")</td>     
+                            <td>@item.entry_date?.ToString("yyyy-MM-dd HH:mm")</td>
                         </tr>
                     }
                 </tbody>
@@ -53,3 +51,172 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+               $('#articleTable').DataTable({
+            "dom": 'fpt', // Search (f) and Pagination (p) on top, then Table (t)
+            "paging": false,
+            "searching": true,
+            "ordering": true,
+            "info": false,
+            "lengthChange": false,
+            "language": {
+                "search": "",
+                "searchPlaceholder": "Search articles, lasts, or seasons..."
+            }
+        });
+    </script>
+} *@
+
+
+
+<style>
+    /* 1. Full Fluid Layout */
+    .container-fluid {
+        max-width: 100% !important;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    /* 2. Professional Centered Search Bar */
+    .dataTables_filter {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+
+        .dataTables_filter input {
+            width: 400px !important;
+            height: 45px;
+            border-radius: 25px !important;
+            padding: 10px 25px !important;
+            border: 2px solid #CDED2B !important;
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.1) !important;
+            transition: 0.3s ease-in-out;
+            outline: none;
+        }
+
+            .dataTables_filter input:focus {
+                width: 500px !important;
+                box-shadow: 0 6px 15px rgba(13, 110, 253, 0.2) !important;
+            }
+
+    /* 3. Sticky Table Header */
+    .table-responsive-custom {
+        max-height: 70vh;
+        overflow-y: auto;
+        border-radius: 8px;
+    }
+
+    #articleTable thead th {
+        position: sticky;
+        top: 0;
+        background-color: #CDED2B;
+        z-index: 10;
+        border-bottom: 2px solid #dee2e6;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+    }
+
+    /* 4. Pagination at Bottom Right */
+    .bottom-controls {
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 1.5rem;
+    }
+
+    .page-item.active .page-link {
+        background-color: #CDED2B !important;
+        border-color: #CDED2B !important;
+    }
+
+    .page-link {
+        color: #ff5733;
+    }
+</style>
+
+@model IEnumerable<ApexOMS_Web.Models.ArticleLast>
+
+<div class="container-fluid mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-warning fw-bold mb-0">
+                <i class="bi bi-layers-half me-2">Article & Last Master</i>
+            </h2>
+            <p class="text-muted small">Comprehensive database of sales parts and footwear lasts</p>
+        </div>
+
+        @if (Context.Session.GetString("UserRole") != "IB")
+        {
+            <a href="/Article/Create" class="btn btn-warning px-4 fw-bold shadow-sm">
+                <i class="bi bi-plus-lg me-2">+Add New Article</i>
+            </a>
+        }
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <div class="table-responsive-custom">
+                <table id="articleTable" class="table table-hover align-middle table-striped">
+                    <thead>
+                        <tr>
+                            <th>Sales Part</th>
+                            <th>Last</th>
+                            <th>Style</th>
+                            <th>Gender</th>
+                            <th>Season</th>
+                            <th class="text-center">Status</th>
+                            <th>Entry Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><span class="text-primary fw-bold">@item.apex_sales_part</span></td>
+                                <td>@item.Last</td>
+                                <td><span class="badge bg-light text-dark border">@item.shoe_style</span></td>
+                                <td>@item.gender</td>
+                                <td>@item.season (@item.season_year)</td>
+                                <td class="text-center">
+                                    @if (item.status == 1)
+                                    {
+                                        <span class="badge bg-success px-3 rounded-pill">Available</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger px-3 rounded-pill">Unavailable</span>
+                                    }
+                                </td>
+                                <td class="text-muted small">@item.entry_date?.ToString("yyyy-MM-dd HH:mm")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#articleTable').DataTable({
+                // f: Search, t: Table, p: Pagination
+                "dom": 'ft<"bottom-controls"p>',
+                "paging": true,
+                "pageLength": 10,
+                "searching": true,
+                "ordering": true,
+                "info": false,
+                "lengthChange": false,
+                "language": {
+                    "search": "",
+                    "searchPlaceholder": "Search Here..."
+                }
+            });
+        });
+    </script>
+}

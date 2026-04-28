@@ -1,11 +1,52 @@
-﻿@model IEnumerable<ApexOMS_Web.Models.DashboardData>
-@* Only show this button if the user is NOT in the IB department *@
-@* @if (Context.Session.GetString("UserRole") != "IB")
-{
-    <a href="/DashboardData.cs/Create" class="btn btn-primary">+ Add New</a>
-} *@
+﻿@* 
+@model IEnumerable<ApexOMS_Web.Models.DashboardData>
+<style>
+    /* Professional Header & Search bar alignment */
+    .dataTables_filter {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
 
-<div class="container-fluid mt-4">
+        .dataTables_filter input {
+            width: 450px !important;
+            border-radius: 25px !important;
+            padding: 12px 25px !important;
+            border: 2px solid #0d6efd !important; /* Apex Primary Blue */
+            box-shadow: 0 4px 10px rgba(13, 110, 253, 0.1) !important;
+            outline: none;
+            transition: 0.3s ease-in-out;
+        }
+
+            .dataTables_filter input:focus {
+                width: 500px !important;
+                box-shadow: 0 6px 15px rgba(13, 110, 253, 0.2) !important;
+            }
+
+    /* Table styling */
+    .inventory-card {
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    #inventoryTable thead th {
+        background-color: #f8f9fa;
+        color: #333;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.5px;
+        border-bottom: 2px solid #dee2e6;
+    }
+
+    .qty-font {
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: bold;
+        color: #2c3e50;
+    }
+</style>
+
+<div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-info fw-bold">Production Tracking Dashboard</h2>
         @if (Context.Session.GetString("UserRole") != "IB")
@@ -15,9 +56,9 @@
         
     </div>
 
-    <div class="card shadow border-0">
-        <div class="card-body p-0">
-            <table class="table table-hover mb-0">
+    <div class="card-body">
+        <div>
+            <table id="articleTable" class="table table-bordered  table-responsive-md table-striped table-hover">
                 <thead class="table-info">
                     <tr>
                         <th>Order #</th>
@@ -46,14 +87,30 @@
                             <td>@item.cust_name</td>
                             <td>@item.sample_order_no</td>
                             <td>@item.tech_sheet_status</td>
-                            <td>@item.knife_status</td>
+                            
+                            <td>
+                                @if (item.knife_status == "Available")
+                                {
+                                    <span class="badge bg-success px-3 shadow-sm">
+                                        <i class="bi bi-check-circle me-1"></i> Available
+                                    </span>
+                                }
+                                else if (item.knife_status == "Unavailable")
+                                {
+                                    <span class="badge bg-danger text-white px-3 shadow-sm">
+                                        <i class="bi bi-clock me-1"></i> Unavailable
+                                    </span>
+                                }
+                             
+                            </td>
+
                             <td>@item.order_qty</td>
                             <td>@item.shipment_quantity</td>
                             <td>@item.cd_date?.ToShortDateString()</td>
                             <td>@item.pd_date?.ToShortDateString()</td>
                             <td>@item.shipment_date?.ToShortDateString()</td>
                             
-                            @* <td><span class="badge bg-secondary">@item.approval</span></td> *@
+                       
                             <td>
                                 @if (item.approval == "Approved")
                                 {
@@ -96,3 +153,237 @@
         </div>
     </div>
 </div>
+
+
+@section Scripts {
+    <script>
+               $('#articleTable').DataTable({
+            "dom": 'fpt', // Search (f) and Pagination (p) on top, then Table (t)
+            "paging": false,
+            "searching": true,
+            "ordering": true,
+            "info": false,
+            "lengthChange": false,
+            "language": {
+                "search": "",
+                "searchPlaceholder": "Search articles, lasts, or seasons..."
+            }
+        });
+    </script>
+}  *@
+
+
+
+ <style>
+    /* 1. Perfect Search Bar Alignment */
+    .dataTables_filter {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 25px;
+        margin-top: 25px;
+    }
+
+        .dataTables_filter input {
+            width: 400px !important;
+            border-radius: 25px !important;
+            padding: 10px 20px !important;
+            border: 2px solid #0dcaf0; /* Matches 'text-info' theme */
+            outline: none;
+            transition: 0.3s ease-in-out;
+        }
+
+            .dataTables_filter input:focus {
+                width: 600px !important;
+                box-shadow: 0 6px 15px rgba(13, 110, 253, 0.2) !important;
+            }
+
+    /* 2. Professional Table Scrolling */
+    .table-container {
+        max-height: 70vh;
+        overflow: auto;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    /* 3. Sticky Header (Crucial for 14 columns) */
+    #articleTable thead th {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: #0dcaf0;
+        color: white;
+        white-space: nowrap;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* 4. Row Styling */
+    #articleTable tbody td {
+        font-size: 0.9rem;
+        vertical-align: middle;
+        white-space: nowrap; /* Prevents text wrapping from making rows too tall */
+    }
+
+    /* 5. Highlight the "Order #" column */
+    .order-col {
+        font-weight: bold;
+        color: #0dcaf0;
+    }
+    /* 1. Make the main wrapper use full width */
+    .container-fluid {
+        max-width: 100% !important;
+    }
+
+    /* 2. Expand the Card */
+    .card {
+        width: 100% !important;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    /* 3. Force the table to spread out */
+    #articleTable {
+        width: 100% !important;
+        table-layout: auto; /* Allows columns to find their natural width */
+    }
+
+        /* 4. Optional: Adjust column padding to fit more data */
+        #articleTable th, #articleTable td {
+            padding: 12px 8px !important;
+            font-size: 0.85rem; /* Slightly smaller text helps fit more columns */
+        }
+</style>
+
+@model IEnumerable<ApexOMS_Web.Models.DashboardData>
+
+<div class="container-fluid px-1">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="text-info fw-bold mb-0"> <i class="bi bi-box-seam me-2">Production Tracking Dashboard</i></h2>
+            <p class="text-muted small">Live production status and shipment tracking</p>
+        </div>
+
+        @if (Context.Session.GetString("UserRole") != "IB")
+        {
+            <a href="/Dashboard/Create" class="btn btn-info text-white shadow-sm px-4">
+                <i class="bi bi-plus-circle me-2 fw-bold">+Add New Record</i>
+            </a>
+        }
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <div class="table-container">
+                <table id="articleTable" class="table table-hover table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Order #</th>
+                            <th>Shop Order</th>
+                            <th>Customer</th>
+                            <th>Sample Order</th>
+                            <th>Tech Status</th>
+                            <th>Knife Status</th>
+                            <th>Total QTY</th>
+                            <th>Shipment QTY</th>
+                            <th>CD Date</th>
+                            <th>PD Date</th>
+                            <th>Ship Date</th>
+                            <th>Status</th>
+                            <th>Picture</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="order-col text-center">@item.shop_order_number</td>
+                                <td><span class="badge bg-light text-dark border">@item.shop_no_generated</span></td>
+                                <td>@item.cust_name</td>
+                                <td class="text-center qty-font">@item.sample_order_no</td>
+                                <td>@item.tech_sheet_status</td>
+                                <td>
+                                    @if (item.knife_status == "Available")
+                                    {
+                                        <span class="badge bg-success px-3 shadow-sm">
+                                            <i class="bi bi-check-circle me-1"></i> Available
+                                        </span>
+                                    }
+                                    else if (item.knife_status == "Unavailable")
+                                    {
+                                        <span class="badge bg-danger text-white px-3 shadow-sm">
+                                            <i class="bi bi-clock me-1"></i> Unavailable
+                                        </span>
+                                    }
+
+                                </td>
+                                <td class="fw-bold text-center qty-font">@item.order_qty</td>
+                                <td class="fw-bold text-center qty-font">@item.shipment_quantity</td>
+                                <td>@item.cd_date?.ToShortDateString()</td>
+                                <td>@item.pd_date?.ToShortDateString()</td>
+                                <td>@item.shipment_date?.ToShortDateString()</td>
+                                <td>
+                                    @if (item.approval == "Approved")
+                                    {
+                                        <span class="badge bg-success px-3 rounded-pill shadow-sm">
+                                            <i class="bi bi-check-circle me-1"></i> Approved
+                                        </span>
+                                    }
+                                    else if (item.approval == "Pending")
+                                    {
+                                        <span class="badge bg-warning text-dark px-3 rounded-pill shadow-sm">
+                                            <i class="bi bi-clock me-1"></i> Pending
+                                        </span>
+                                    }
+                                    else if (item.approval == "Rejected")
+                                    {
+                                        <span class="badge bg-danger px-3 rounded-pill shadow-sm">
+                                            <i class="bi bi-x-circle me-1"></i> Rejected
+                                        </span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.image_path))
+                                    {
+                                        <img src="@item.image_path" alt="Shoe" class="img-thumbnail" style="width:50px; height:50px; object-fit:cover;" />
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted x-small">N/A</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="/Dashboard/Edit/@item.shop_order_number" class="btn btn-sm btn-outline-info text-center">
+                                        <i class="bi bi-pencil">Edit</i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#articleTable').DataTable({
+                "dom": '<"center-toolbar"f>t<"bottom-controls"p>',
+                "paging": true, // Enabled paging for professional navigation
+                "pageLength": 10,
+                "searching": true,
+                "ordering": true,
+                "info": false,
+                "lengthChange": true,
+                "language": {
+                    "search": "",
+                    "searchPlaceholder": "Search Here..."
+                }
+            });
+        });
+    </script>
+}

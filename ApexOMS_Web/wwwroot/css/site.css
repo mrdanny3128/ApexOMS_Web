@@ -18,6 +18,8 @@ html {
 }
 
 body {
+  padding: 0px;
+    margin-right: 0px;
     margin-bottom: 60px;
     background-image: url('../images/bg4.png');
     /* This centers the image */
@@ -30,7 +32,9 @@ body {
     background-attachment: fixed;
     /* Ensures the body takes up at least the full height of the browser */
     min-height: 100vh;
-}
+/*}
+
+
 /* Container for the registration card */
 .registration-container {
     min-height: 100vh;
