@@ -66,19 +66,19 @@
 
 
 
-@using Microsoft.AspNetCore.Http
+@* @using Microsoft.AspNetCore.Http
 @{
     var role = Context.Session.GetString("UserRole");
 }
 
-<div class="container mt-5">
+<div class="container mt-5"> *@
 
     @* --- UPPER PORTION: Only show for Super Admin --- *@
-    @if (role == "SuperAdmin")
-    {
+    @* @if (role == "SuperAdmin")
+    { *@
 
         @* --- Super Admin Row: 4 Equal Cards --- *@
-        <div class="row justify-content-center g-4 mb-5">
+    @*     <div class="row justify-content-center g-4 mb-5">
             <div class="col-md-3">
                 <div class="card shadow border-0 h-100">
                     <div class="card-body text-center p-4">
@@ -141,7 +141,117 @@
             </div>
         </div>
         <hr />
+    } *@
+
+<style>
+    :root {
+        --admin-slate: #2d3436;
+        --admin-danger: #d63031;
     }
+
+    /* Full Width Fluid Layout */
+    .admin-container {
+        max-width: 100% !important;
+        padding: 2rem 3rem;
+    }
+
+    /* Command Center Header */
+    .admin-banner {
+        background: var(--admin-slate);
+        color: white;
+        border-radius: 15px;
+        padding: 40px;
+        margin-bottom: 40px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        border-left: 10px solid var(--admin-danger);
+    }
+
+    /* Group Titles */
+    .section-divider {
+        font-size: 0.8rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #636e72;
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+    }
+
+        .section-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #dee2e6;
+            margin-left: 20px;
+        }
+
+    /* Admin Action Cards */
+    .admin-card {
+        background: #fff;
+        border: 1px solid #edf2f7;
+        border-radius: 12px;
+        padding: 30px;
+        height: 100%;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        text-decoration: none !important;
+        display: block;
+    }
+
+        .admin-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-color: var(--admin-danger);
+        }
+
+    .admin-icon-box {
+        width: 60px;
+        height: 60px;
+        background: #f8f9fa;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        color: var(--admin-slate);
+        margin-bottom: 20px;
+        transition: 0.3s;
+    }
+
+    .admin-card:hover .admin-icon-box {
+        background: var(--admin-danger);
+        color: white;
+    }
+
+    .admin-card h4 {
+        color: var(--admin-slate);
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+
+    .admin-card p {
+        color: #b2bec3;
+        font-size: 0.85rem;
+        margin-bottom: 0;
+    }
+</style>
+@using Microsoft.AspNetCore.Http
+@{
+    var role = Context.Session.GetString("UserRole");
+}
+
+
+<div class="container mt-5">
+    <h1>Hello, @Context.Session.GetString("UserName")</h1>
+    <hr />
+
+    @if (role == "SuperAdmin")
+    {
+        <partial name="_SuperAdminDash" />
+    }
+   
+</div>
+
 
     @* --- LOWER PORTION: Role-Based Content --- *@
     <div class="mt-4">
@@ -161,7 +271,7 @@
             <partial name="_IBDash" />
         }
     </div>
-</div>
+
 
 @section Scripts {
     <script>

@@ -48,21 +48,70 @@
     }
 
     /* Icon styling */
+    /* Base Icon Box Style */
     .icon-box {
         width: 70px;
         height: 70px;
-        background-color: rgba(13, 110, 253, 0.1);
-        color: #0d6efd;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 2rem;
         margin-bottom: 20px;
-        transition: 0.3s;
+        transition: all 0.3s ease;
     }
 
-    .module-card:hover .icon-box {
+    /* 1. Inventory - Green */
+    .icon-inventory {
+        background-color: rgba(25, 135, 84, 0.1);
+        color: #198754;
+    }
+
+    .module-card:hover .icon-inventory {
+        background-color: #198754;
+        color: #fff;
+    }
+
+    /* 2. Articles - Orange/Gold */
+    .icon-article {
+        background-color: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+    }
+
+    .module-card:hover .icon-article {
+        background-color: #ffc107;
+        color: #fff;
+    }
+
+    /* 3. Dashboard - Cyan/Info */
+    .icon-dash {
+        background-color: rgba(13, 202, 240, 0.1);
+        color: #0dcaf0;
+    }
+
+    .module-card:hover .icon-dash {
+        background-color: #0dcaf0;
+        color: #fff;
+    }
+
+    /* 4. BOM - Dark/Professional */
+    .icon-bom {
+        background-color: rgba(33, 37, 41, 0.1);
+        color: #212529;
+    }
+
+    .module-card:hover .icon-bom {
+        background-color: #212529;
+        color: #fff;
+    }
+
+    /* 5. Samples - Royal Blue */
+    .icon-sample {
+        background-color: rgba(13, 110, 253, 0.1);
+        color: #0d6efd;
+    }
+
+    .module-card:hover .icon-sample {
         background-color: #0d6efd;
         color: #fff;
     }
@@ -97,7 +146,7 @@
     <div class="row g-4 mt-2 justify-content-center">
         <div class="col-md-4 col-lg-3">
             <a href="/Inventory/Index" class="module-card border-bottom border-success border-4">
-                <div class="icon-box">
+                <div class="icon-box icon-inventory">
                     <i class="bi bi-box-seam"></i>
                 </div>
                 <div class="module-title text-success">Update Inventory</div>
@@ -107,7 +156,7 @@
 
         <div class="col-md-4 col-lg-3">
             <a href="/Article/Index" class="module-card border-bottom border-warning border-4">
-                <div class="icon-box">
+                <div class="icon-box icon-article">
                     <i class="bi bi-file-earmark-text"></i>
                 </div>
                 <div class="module-title text-warning">Update Articles</div>
@@ -117,7 +166,7 @@
 
         <div class="col-md-4 col-lg-3">
             <a href="/Dashboard/Index" class="module-card border-bottom border-info border-4">
-                <div class="icon-box">
+                <div class="icon-box icon-dash">
                     <i class="bi bi-speedometer2"></i>
                 </div>
                 <div class="module-title text-info">Update Dashboard</div>
@@ -127,7 +176,7 @@
 
         <div class="col-md-4 col-lg-3">
             <a href="/Bom/Index" class="module-card border-bottom border-dark border-4">
-                <div class="icon-box">
+                <div class="icon-box icon-bom">
                     <i class="bi bi-list-check"></i>
                 </div>
                 <div class="module-title text-dark">Update BOM</div>
@@ -137,7 +186,7 @@
 
         <div class="col-md-4 col-lg-3">
             <a href="/SampleOrder/Index" class="module-card border-bottom border-primary border-4">
-                <div class="icon-box">
+                <div class="icon-box icon-sample">
                     <i class="bi bi-cart-check"></i>
                 </div>
                 <div class="module-title text-primary">Manage Samples</div>

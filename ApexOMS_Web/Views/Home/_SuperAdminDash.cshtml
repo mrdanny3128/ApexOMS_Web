@@ -1,4 +1,4 @@
-﻿<div class="row">
+﻿@* <div class="row">
     <h2 class="text-danger">Super Admin Console</h2>
     <a href="/Inventory/Index" class="btn btn-primary m-2">Manage Inventory</a>
     <a href="/Article/Index" class="btn btn-success m-2">Manage Articles</a>
@@ -26,6 +26,78 @@
                 <p class="small text-muted">Manage sample development and customer approvals.</p>
                 <a href="/SampleOrder/Index" class="btn btn-primary w-100 mt-2">Open Sample Master</a>
             </div>
+        </div>
+    </div>
+</div> *@
+
+<div class="admin-container">
+    <div class="admin-banner d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="fw-bold mb-1">SuperAdmin Console</h1>
+            <p class="mb-0 opacity-75">Apex OMS Governance & Master Data Authority</p>
+        </div>
+        <div class="text-end">
+            <span class="badge bg-danger px-4 py-2 rounded-pill shadow-sm">
+                <i class="bi bi-shield-check me-2"></i>ROOT ACCESS
+            </span>
+        </div>
+    </div>
+
+    <div class="section-divider">Security & User Governance</div>
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <a href="/Account/UserList" class="admin-card">
+                <div class="admin-icon-box"><i class="bi bi-person-check"></i></div>
+                <h4><b class="text-danger">User Access Control</b></h4>
+                <p class="text-black">Approve new registrations, manage passwords, and assign system roles.</p>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a href="/Account/Register" class="admin-card">
+                <div class="admin-icon-box"><i class="bi bi-person-plus"></i></div>
+                <h4><b class="text-danger">Manual Registration</b></h4>
+                <p class ="text-black">Directly create new system actors and bypass the approval queue.</p>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="section-divider">Operational Master Data</div>
+    <div class="row g-4">
+        <div class="col-md-3">
+            <a href="/Inventory/Index" class="admin-card">
+                <div class="admin-icon-box"><i class="bi bi-box-seam"></i></div>
+                <h4>Inventory Master</h4>
+                <p>Manage raw material stock levels.</p>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="/Article/Index" class="admin-card">
+                <div class="admin-icon-box"><i class="bi bi-layers"></i></div>
+                <h4>Article Master</h4>
+                <p>Manage sales parts and shoe lasts.</p>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="/Bom/Index" class="admin-card">
+                <div class="admin-icon-box"><i class="bi bi-list-check"></i></div>
+                <h4>BOM Master</h4>
+                <p>Manage technical material lists.</p>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="/Dashboard/Index" class="admin-card">
+                <div class="admin-icon-box"><i class="bi bi-palette"></i></div>
+                <h4>Dashboard Control</h4>
+                <p>Tracking the Ultimate process.</p>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="/SampleOrder/Index" class="admin-card">
+                <div class="admin-icon-box"><i class="bi bi-palette"></i></div>
+                <h4>Sample Master</h4>
+                <p>Manage prototype development.</p>
+            </a>
         </div>
     </div>
 </div>

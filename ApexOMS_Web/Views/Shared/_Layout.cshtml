@@ -1,6 +1,69 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        :root {
+            --sidebar-width: 260px;
+            --apex-blue: #0d6efd;
+            --dark-bg: #212529;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Styling */
+        #sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: var(--dark-bg);
+            color: white;
+            transition: all 0.3s;
+            z-index: 1000;
+            padding-top: 20px;
+        }
+
+        .nav-link {
+            color: #adb5bd;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            border-radius: 0;
+            transition: 0.2s;
+            border-left: 4px solid transparent;
+        }
+
+            .nav-link:hover, .nav-link.active {
+                background: rgba(255,255,255,0.05);
+                color: white;
+                border-left: 4px solid var(--apex-blue);
+            }
+
+            .nav-link i {
+                margin-right: 12px;
+                font-size: 1.2rem;
+            }
+
+        /* Main Content Adjustment */
+        #main-content {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            min-height: 100vh;
+            transition: all 0.3s;
+        }
+
+        .sidebar-brand {
+            padding: 0 20px 30px;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: white;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+    </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ApexOMS_Web</title>
@@ -12,7 +75,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                
                 <a class="navbar-brand fw-bold text-primary" asp-area="" asp-controller="Home" asp-action="Index"> <img src="~/images/apex_logo.png" style="width:150px; height:80px"/></a>
@@ -41,8 +104,55 @@
             
 
             
-        </nav>
+        </nav> 
     </header>
+    <div id="sidebar">
+        <div class="sidebar-brand">
+            <img src="~/images/apex_logo.png" style="width:150px; height:55px" />  <span class="text-primary">OMS</span>
+        </div>
+
+        <nav class="nav flex-column">
+            <a class="nav-link" href="/Home/Index"><b class =" text-danger ">HOME</b></a>
+
+            @if (Context.Session.GetString("UserRole") == "DesignLab")
+            {
+
+                <a class="nav-link" href="/Inventory/Index"><i class="bi bi-box-seam text-info"> Inventory</i></a>
+                <a class="nav-link" href="/Article/Index"><i class="bi bi-box-seam text-info">Articles</i> </a>
+                <a class="nav-link" href="/Bom/Index"><i class="bi bi-box-seam text-info">BOM</i> </a>
+                <a class="nav-link" href="/SampleOrder/Index"><i class="bi bi-box-seam text-info"> Sample Orders</i></a>
+                <a class="nav-link" href="/Dashboard/Index"><i class="bi bi-box-seam text-info">Tracking Dash</i> </a>
+            }
+            @if (Context.Session.GetString("UserRole") == "SuperAdmin")
+            {
+                <a class="nav-link" href="/Inventory/Index"><i class="bi bi-box-seam text-info">Inventory</i> </a>
+                <a class="nav-link" href="/Article/Index"><i class="bi bi-box-seam text-info">Articles</i> </a>
+                <a class="nav-link" href="/Bom/Index"><i class="bi bi-box-seam text-info">BOM</i> </a>
+                <a class="nav-link" href="/SampleOrder/Index"><i class="bi bi-box-seam text-info">Sample Orders</i> </a>
+                <a class="nav-link" href="/Dashboard/Index"><i class="bi bi-box-seam text-info">Tracking Dash</i> </a>
+                <a class="nav-link" href="/Account/UserList"><i class="bi bi-box-seam text-warning"> Access Control</i></a>
+            }
+            @if (Context.Session.GetString("UserRole") == "IB")
+            {
+                <div class="small text-uppercase px-4 mt-3 mb-1 text-muted" style="font-size: 0.7rem;">International Business</div>
+                <a class="nav-link" href="/Inventory/Index"><i class="bi bi-box-seam text-info">Inventory</i> </a>
+                <a class="nav-link" href="/Article/Index"><i class="bi bi-box-seam text-info">Articles</i> </a>
+                <a class="nav-link" href="/Bom/Index"><i class="bi bi-box-seam text-info">BOM</i> </a>
+                <a class="nav-link" href="/SampleOrder/Index"><i class="bi bi-box-seam text-info">Sample Orders</i> </a>
+                <a class="nav-link" href="/Dashboard/Index"><i class="bi bi-box-seam text-info"> Tracking Dash</i></a>
+            }
+        </nav>
+
+        <div class="mt-auto p-4 border-top border-secondary">
+            <a href="/Account/Logout" class="btn btn-outline-danger btn-sm w-100 text-white">Logout</a>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
     <div class="container">
         <main role="main" >
             @RenderBody()
