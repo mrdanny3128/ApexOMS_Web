@@ -1,148 +1,4 @@
 ﻿
-
-@* @{
-    ViewData["Title"] = "Apex Dashboard";
-}
-
-<div class="container mt-5 text-center">
-    <h1 class="display-4 fw-bold text-primary mb-3">Apex Order Management</h1>
-    <p class="lead text-muted mb-5">Welcome to the central production portal.</p>
-
-    <div class="row justify-content-center">
-        <div class="col-md-4 mb-4">
-            <div class="card shadow border-0 h-100 p-3">
-                <div class="card-body">
-                    <h3 class="card-title text-success">Inventory</h3>
-                    <p class="card-text text-muted">View and add new production orders.</p>
-                    <a href="/Inventory/Index" class="btn btn-success px-4">Open Inventory</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-            <div class="card shadow border-0 h-100 p-3">
-                <div class="card-body">
-                    <h3 class="card-title text-primary">Articles</h3>
-                    <p class="card-text text-muted">Manage shoe articles and last molds.</p>
-                    <a href="/Article/Index" class="btn btn-primary px-4">Open Master</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-md-4 mb-4">
-    <div class="card shadow border-0 h-100 p-3">
-        <div class="card-body text-center">
-            <h3 class="card-title text-info">Production Tracking</h3>
-            <p class="card-text text-muted">Monitor CD/PD dates and shipment status.</p>
-            <a href="/Dashboard/Index" class="btn btn-info text-white px-4">Open Dashboard</a>
-        </div>
-    </div>
-</div>
-@using Microsoft.AspNetCore.Http
-@{
-    var role = Context.Session.GetString("UserRole");
-}
-
-<div class="container mt-5">
-    <h1>Welcome, @Context.Session.GetString("UserName")</h1>
-    <hr />
-
-    @if (role == "SuperAdmin")
-    {
-        <partial name="_SuperAdminDash" />
-    }
-    else if (role == "DesignLab")
-    {
-        <partial name="_DesignLabDash" />
-    }
-    else
-    {
-        <partial name="_IBDash" />
-    }
-</div> *@
-
-
-
-
-
-@* @using Microsoft.AspNetCore.Http
-@{
-    var role = Context.Session.GetString("UserRole");
-}
-
-<div class="container mt-5"> *@
-
-    @* --- UPPER PORTION: Only show for Super Admin --- *@
-    @* @if (role == "SuperAdmin")
-    { *@
-
-        @* --- Super Admin Row: 4 Equal Cards --- *@
-    @*     <div class="row justify-content-center g-4 mb-5">
-            <div class="col-md-3">
-                <div class="card shadow border-0 h-100">
-                    <div class="card-body text-center p-4">
-                        <h3 class="text-success fw-bold">Inventory</h3>
-                        <p class="small text-muted">View and add new production orders.</p>
-                        <a href="/Inventory/Index" class="btn btn-success w-100 mt-2">Open Inventory</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="card shadow border-0 h-100">
-                    <div class="card-body text-center p-4">
-                        <h3 class="text-primary fw-bold">Articles</h3>
-                        <p class="small text-muted">Manage shoe articles and last molds.</p>
-                        <a href="/Article/Index" class="btn btn-primary w-100 mt-2">Open Master</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="card shadow border-0 h-100">
-                    <div class="card-body text-center p-4">
-                        <h3 class="text-info fw-bold">Production Tracking</h3>
-                        <p class="small text-muted">Monitor CD/PD dates and status.</p>
-                        <a href="/Dashboard/Index" class="btn btn-info text-white w-100 mt-2">Open Dashboard</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card shadow border-0 h-100">
-                    <div class="card-body text-center p-4">
-                        <h3 class="text-success fw-bold">Sample Development</h3>
-                        <p class="small text-muted">Manange Samples for Order</p>
-                        <a href="/SampleOrder/Index" class="btn btn-success w-100 mt-2">Open Sample Development</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="card shadow border-0 h-100">
-                    <div class="card-body text-center p-4">
-                        <h3 class="text-dark fw-bold">Bill of Materials</h3>
-                        <p class="small text-muted">Manage materials and shoe recipes.</p>
-                        <a href="/Bom/Index" class="btn btn-dark w-100 mt-2">Open BOM</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-center mt-4">
-            <div class="col-md-4">
-                <div class="card shadow border-0 border-top border-danger border-5 h-100">
-                    <div class="card-body text-center p-4">
-                        <i class="bi bi-shield-lock-fill text-danger display-5"></i>
-                        <h3 class="text-danger fw-bold mt-2">User Access Control</h3>
-                        <p class="small text-muted">Approve new registrations and assign roles (IB, Design Lab, Admin)</p>
-                        <a href="/Account/UserList" class="btn btn-danger w-100 mt-2 fw-bold">Manage Users & Approvals</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr />
-    } *@
-
 <style>
     :root {
         --admin-slate: #2d3436;
@@ -189,6 +45,7 @@
     /* Admin Action Cards */
     .admin-card {
         background: #fff;
+        backdrop-filter: blur(10px);
         border: 1px solid #edf2f7;
         border-radius: 12px;
         padding: 30px;
@@ -201,38 +58,110 @@
         .admin-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            border-color: var(--admin-danger);
         }
 
     .admin-icon-box {
         width: 60px;
         height: 60px;
-        background: #f8f9fa;
         border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 1.8rem;
-        color: var(--admin-slate);
         margin-bottom: 20px;
         transition: 0.3s;
     }
 
-    .admin-card:hover .admin-icon-box {
-        background: var(--admin-danger);
+    /* --- COLOR CLASSES --- */
+
+    /* Security - Red */
+    .admin-security {
+        background-color: rgba(214, 48, 49, 0.1);
+        color: var(--admin-danger);
+    }
+
+    .admin-card:hover .admin-security {
+        background-color: var(--admin-danger);
         color: white;
     }
 
-    .admin-card h4 {
-        color: var(--admin-slate);
-        font-weight: 700;
-        font-size: 1.1rem;
+    .admin-card:hover {
+        border-color: var(--admin-danger);
     }
 
-    .admin-card p {
-        color: #b2bec3;
-        font-size: 0.85rem;
-        margin-bottom: 0;
+    /* Inventory - Green */
+    .admin-inventory {
+        background-color: rgba(25, 135, 84, 0.1);
+        color: #198754;
+    }
+
+    .admin-card:hover:has(.admin-inventory) {
+        border-color: #198754;
+    }
+
+    .admin-card:hover .admin-inventory {
+        background-color: #198754;
+        color: white;
+    }
+
+    /* Articles - Orange */
+    .admin-article {
+        background-color: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+    }
+
+    .admin-card:hover:has(.admin-article) {
+        border-color: #ffc107;
+    }
+
+    .admin-card:hover .admin-article {
+        background-color: #ffc107;
+        color: white;
+    }
+
+    /* BOM - Dark */
+    .admin-bom {
+        background-color: rgba(33, 37, 41, 0.1);
+        color: #212529;
+    }
+
+    .admin-card:hover:has(.admin-bom) {
+        border-color: #212529;
+    }
+
+    .admin-card:hover .admin-bom {
+        background-color: #212529;
+        color: white;
+    }
+
+    /* Dashboard - Cyan */
+    .admin-dash {
+        background-color: rgba(13, 202, 240, 0.1);
+        color: #0dcaf0;
+    }
+
+    .admin-card:hover:has(.admin-dash) {
+        border-color: #0dcaf0;
+    }
+
+    .admin-card:hover .admin-dash {
+        background-color: #0dcaf0;
+        color: white;
+    }
+
+    /* Sample - Blue */
+    .admin-sample {
+        background-color: rgba(13, 110, 253, 0.1);
+        color: #0d6efd;
+    }
+
+    .admin-card:hover:has(.admin-sample) {
+        border-color: #0d6efd;
+    }
+
+    .admin-card:hover .admin-sample {
+        background-color: #0d6efd;
+        color: white;
     }
 </style>
 @using Microsoft.AspNetCore.Http
@@ -258,17 +187,19 @@
         @if (role == "SuperAdmin")
         {
             @* SuperAdmin can see everything, or a specific admin view *@
-            <h3>Super Admin Control Panel</h3>
+            @* <h3>Super Admin Control Panel</h3> *@
             @* Add admin specific links here *@
         }
         else if (role == "DesignLab")
         {
             @* This is what shows for DL users now *@
             <partial name="_DesignLabDash" />
+        @* <h3>Design Lab Control Panel</h3> *@
         }
         else if (role == "IB")
         {
             <partial name="_IBDash" />
+        @* <h3>International Business Control Panel</h3> *@
         }
     </div>
 

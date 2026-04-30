@@ -116,6 +116,40 @@ namespace ApexOMS_Web.Controllers
             return BadRequest();
         }
 
+        // GET: Account/ForgotPassword
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        // POST: Account/ResetPassword
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(string username, string newPassword, string confirmPassword)
+        {
+            if (newPassword != confirmPassword)
+            {
+                ModelState.AddModelError("", "Passwords do not match.");
+                return View();
+            }
+
+            // FIX 1: Ensure '.Username' matches your actual Model property (e.g., .EmpID or .Email)
+            var user = _context.Users.FirstOrDefault(u => u.user_id == username);
+
+            if (user != null)
+            {
+                // FIX 2: Added the HashPassword method or used plain text
+                user.user_pass = HashPassword(newPassword);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Login", "Account");
+            }
+
+            ModelState.AddModelError("", "User not found.");
+            return View();
+        }
+
+        // FIX 2 Helper:
+        private string HashPassword(string password) => password;
+
         // --- LOGOUT ---
 
         public IActionResult Logout()

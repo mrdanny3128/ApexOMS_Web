@@ -154,99 +154,135 @@
 }
 
 <style>
-    /* 1. Page Header with Glassmorphism */
-    .ib-header {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
-        padding: 30px;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        box-shadow: 0 8px 32px rgba(0,0,0,0.05);
-        margin-bottom: 40px;
-    }
-
-    /* 2. Action Tiles */
-    .ib-tile {
+    /* 1. Base IB Card - Border hidden by default */
+    .module-card {
         background: #fff;
+        border: 2px solid transparent !important;
         border-radius: 12px;
-        padding: 25px;
+        transition: all 0.3s ease-in-out;
         text-decoration: none !important;
-        display: flex;
-        align-items: center;
-        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        border: 1px solid #edf2f7;
-        position: relative;
-        overflow: hidden;
+        display: block;
+        height: 100%;
+        padding: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
 
-        .ib-tile:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-            border-color: #3182ce;
+        /* 2. Hover Transitions */
+        .module-card:hover {
+            transform: translateY(-8px);
+            background: #fff;
         }
 
-    /* 3. Icon Accent */
-    .tile-icon {
-        width: 55px;
-        height: 55px;
-        border-radius: 10px;
+    /* Icon Box Base */
+    .icon-box {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 1.5rem;
-        margin-right: 20px;
-        background: #f7fafc;
-        color: #4a5568;
-        transition: 0.3s;
+        margin-bottom: 0;
+        transition: all 0.3s ease;
     }
 
-    .ib-tile:hover .tile-icon {
-        background: #3182ce;
+    /* --- IB SPECIFIC COLORS --- */
+
+    /* Inventory Reports - Green */
+    .icon-inventory {
+        background-color: rgba(25, 135, 84, 0.1);
+        color: #198754;
+    }
+
+    .module-card:hover:has(.icon-inventory) {
+        border-color: #198754 !important;
+        box-shadow: 0 10px 20px rgba(25, 135, 84, 0.1);
+    }
+
+    .module-card:hover .icon-inventory {
+        background-color: #198754;
         color: #fff;
     }
 
-    .tile-content h6 {
-        margin-bottom: 2px;
-        color: #2d3748;
+    /* BOM View - Dark/Slate */
+    .icon-bom {
+        background-color: rgba(33, 37, 41, 0.1);
+        color: #212529;
+    }
+
+    .module-card:hover:has(.icon-bom) {
+        border-color: #212529 !important;
+        box-shadow: 0 10px 20px rgba(33, 37, 41, 0.1);
+    }
+
+    .module-card:hover .icon-bom {
+        background-color: #212529;
+        color: #fff;
+    }
+
+    /* Article Search - Orange */
+    .icon-article {
+        background-color: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+    }
+
+    .module-card:hover:has(.icon-article) {
+        border-color: #ffc107 !important;
+        box-shadow: 0 10px 20px rgba(255, 193, 7, 0.1);
+    }
+
+    .module-card:hover .icon-article {
+        background-color: #ffc107;
+        color: #fff;
+    }
+
+    /* Production Tracking - Cyan */
+    .icon-dash {
+        background-color: rgba(13, 202, 240, 0.1);
+        color: #0dcaf0;
+    }
+
+    .module-card:hover:has(.icon-dash) {
+        border-color: #0dcaf0 !important;
+        box-shadow: 0 10px 20px rgba(13, 202, 240, 0.1);
+    }
+
+    .module-card:hover .icon-dash {
+        background-color: #0dcaf0;
+        color: #fff;
+    }
+
+    /* Sample Tracking - Blue */
+    .icon-sample {
+        background-color: rgba(13, 110, 253, 0.1);
+        color: #0d6efd;
+    }
+
+    .module-card:hover:has(.icon-sample) {
+        border-color: #0d6efd !important;
+        box-shadow: 0 10px 20px rgba(13, 110, 253, 0.1);
+    }
+
+    .module-card:hover .icon-sample {
+        background-color: #0d6efd;
+        color: #fff;
+    }
+
+    .ib-title {
+        color: #2d3436;
         font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: 4px;
     }
 
-    .tile-content p {
+    .ib-desc {
+        color: #636e72;
+        font-size: 0.85rem;
         margin-bottom: 0;
-        font-size: 0.8rem;
-        color: #718096;
-    }
-
-    /* 4. "Live" Indicator */
-    .live-dot {
-        height: 8px;
-        width: 8px;
-        background-color: #48bb78;
-        border-radius: 50%;
-        display: inline-block;
-        margin-right: 5px;
-        animation: pulse 2s infinite;
-    }
-
-    @@keyframes pulse {
-        0% {
-            transform: scale(0.95);
-            box-shadow: 0 0 0 0 rgba(72, 187, 120, 0.7);
-        }
-
-        70% {
-            transform: scale(1);
-            box-shadow: 0 0 0 10px rgba(72, 187, 120, 0);
-        }
-
-        100% {
-            transform: scale(0.95);
-            box-shadow: 0 0 0 0 rgba(72, 187, 120, 0);
-        }
     }
 </style>
 
-<div class="container py-5">
+@* <div class="container py-5">
     <div class="ib-header d-flex justify-content-between align-items-center">
         <div>
             <h2 class="fw-bold text-dark mb-1">IB Operations Console</h2>
@@ -262,7 +298,7 @@
     <div class="row g-4">
         <div class="col-md-6">
             <a href="/Inventory/Index" class="ib-tile h-100">
-                <div class="tile-icon"><i class="bi bi-bar-chart-line"></i></div>
+                <div class="icon-box icon-inventory me-3"><i class="bi bi-bar-chart-line"></i></div>
                 <div class="tile-content">
                     <h4>Inventory Reports</h4>
                     <p>Analyze current stock levels and raw material availability.</p>
@@ -272,7 +308,7 @@
 
         <div class="col-md-6">
             <a href="/Bom/Index" class="ib-tile h-100">
-                <div class="tile-icon"><i class="bi bi-layers"></i></div>
+                <div class="icon-box icon-bom me-3"><i class="bi bi-layers"></i></div>
                 <div class="tile-content">
                     <h4>Master BOM View</h4>
                     <p>Full access to Bill of Materials for all active articles.</p>
@@ -282,7 +318,7 @@
 
         <div class="col-md-6">
             <a href="/Article/Index" class="ib-tile h-100">
-                <div class="tile-icon"><i class="bi bi-search"></i></div>
+                <div class="icon-box icon-article me-3"><i class="bi bi-search"></i></div>
                 <div class="tile-content">
                     <h4>Article Search</h4>
                     <p>Lookup technical specs and shoe models across departments.</p>
@@ -292,7 +328,7 @@
 
         <div class="col-md-6">
             <a href="/Dashboard/Index" class="ib-tile h-100">
-                <div class="tile-icon"><i class="bi bi-cpu"></i></div>
+                <div class="icon-box icon-dash me-3"><i class="bi bi-cpu"></i></div>
                 <div class="tile-content">
                     <h4>Production Tracking</h4>
                     <p>Live tracking of factory floor status and order progress.</p>
@@ -302,7 +338,7 @@
 
         <div class="col-md-6">
             <a href="/SampleOrder/Index" class="ib-tile h-100">
-                <div class="tile-icon"><i class="bi bi-box-seam"></i></div>
+                <div class="icon-box icon-sample me-3"><i class="bi bi-box-seam"></i></div>
                 <div class="tile-content">
                     <h4>Sample Tracking</h4>
                     <p>Monitor the lifecycle of new sample orders and approvals.</p>
@@ -318,6 +354,80 @@
                 </div>
                 <button class="btn btn-outline-light btn-sm px-4">Contact IT</button>
             </div>
-        </div> *@
+        </div> *
     </div>
-</div>
+</div> *@
+
+
+
+
+    <!-- IB Banner -->
+    <div class="card border-0 shadow-sm mb-5 p-4 bg-white rounded-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h3 class="fw-bold mb-1">IB Operations Console</h3>
+                <p class="text-muted small mb-0">
+                    <span class="text-success">●</span> System Online | Ready-Only Environment
+                </p>
+            </div>
+            <img src="~/images/apex_logo.png" alt="Apex" style="height: 40px; opacity: 0.8;">
+        </div>
+    </div>
+
+    <!-- Grid Layout -->
+    <div class="row g-4">
+        <!-- Inventory Reports -->
+        <div class="col-md-6">
+            <a href="/Inventory/Index" class="module-card d-flex align-items-center">
+                <div class="icon-box icon-inventory me-3"><i class="bi bi-file-earmark-bar-graph"></i></div>
+                <div>
+                    <h5 class="ib-title text-success">Inventory Reports</h5>
+                    <p class="ib-desc">Analyze current stock levels and raw material availability.</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- BOM View -->
+        <div class="col-md-6">
+            <a href="/Bom/Index" class="module-card d-flex align-items-center">
+                <div class="icon-box icon-bom me-3"><i class="bi bi-list-check"></i></div>
+                <div>
+                    <h5 class="ib-title text-black">Master BOM View</h5>
+                    <p class="ib-desc">Full access to Bill of Materials for all active articles.</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Article Search -->
+        <div class="col-md-6">
+            <a href="/Article/Index" class="module-card d-flex align-items-center">
+                <div class="icon-box icon-article me-3"><i class="bi bi-search"></i></div>
+                <div>
+                    <h5 class="ib-title text-warning">Article Search</h5>
+                    <p class="ib-desc">Lookup technical specs and shoe models across departments.</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Production Tracking -->
+        <div class="col-md-6">
+            <a href="/Dashboard/Index" class="module-card d-flex align-items-center">
+                <div class="icon-box icon-dash me-3"><i class="bi bi-speedometer2"></i></div>
+                <div>
+                    <h5 class="ib-title text-info">Production Tracking</h5>
+                    <p class="ib-desc">Live tracking of factory floor status and order progress.</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Sample Tracking -->
+        <div class="col-md-6">
+            <a href="/SampleOrder/Index" class="module-card d-flex align-items-center">
+                <div class="icon-box icon-sample me-3"><i class="bi bi-eye"></i></div>
+                <div>
+                    <h5 class="ib-title text-primary">Sample Tracking</h5>
+                    <p class="ib-desc">Monitor the lifecycle of new sample orders and approvals.</p>
+                </div>
+            </a>
+        </div>
+    </div>
