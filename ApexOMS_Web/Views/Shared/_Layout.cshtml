@@ -1,39 +1,93 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ApexOMS_Web</title>
+
     <style>
         :root {
             --sidebar-width: 260px;
             --apex-blue: #0d6efd;
             --dark-bg: #212529;
+            --nav-height: 80px;
         }
 
         body {
             overflow-x: hidden;
+            background-color: #f4f7f6;
         }
 
-        /* Sidebar Styling */
+        /* --- SIDEBAR --- */
         #sidebar {
             width: var(--sidebar-width);
             height: 100vh;
             position: fixed;
-            left: 0;
+            left: calc(var(--sidebar-width) * -1);
             top: 0;
             background: var(--dark-bg);
             color: white;
-            transition: all 0.3s;
-            z-index: 1000;
-            padding-top: 20px;
+            transition: all 0.3s ease-in-out;
+            z-index: 1060; /* Lowered slightly to ensure Navbar stays on top */
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
         }
+
+            #sidebar.active {
+                left: 0;
+            }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            height: var(--nav-height);
+            transition: all 0.3s ease-in-out;
+            z-index: 1100 !important; /* Higher than sidebar to ensure clicks work */
+            background-color: white !important;
+        }
+
+            .navbar.pushed {
+                margin-left: var(--sidebar-width);
+                width: calc(100% - var(--sidebar-width));
+            }
+
+        /* --- MAIN CONTENT --- */
+        #main-content {
+            margin-top: var(--nav-height);
+            transition: all 0.3s ease-in-out;
+            padding: 30px;
+            min-height: calc(100vh - var(--nav-height));
+        }
+
+            #main-content.pushed {
+                margin-left: var(--sidebar-width);
+                width: calc(100% - var(--sidebar-width));
+            }
+
+        /* Toggle Button */
+        .menu-toggle-btn {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 4px 12px;
+            color: var(--dark-bg);
+            transition: 0.2s;
+        }
+
+            .menu-toggle-btn:hover {
+                background: #e9ecef;
+            }
 
         .nav-link {
             color: #adb5bd;
             padding: 12px 20px;
             display: flex;
             align-items: center;
-            border-radius: 0;
-            transition: 0.2s;
             border-left: 4px solid transparent;
+            transition: 0.2s;
+            text-decoration: none;
         }
 
             .nav-link:hover, .nav-link.active {
@@ -42,135 +96,150 @@
                 border-left: 4px solid var(--apex-blue);
             }
 
-            .nav-link i {
-                margin-right: 12px;
-                font-size: 1.2rem;
-            }
-
-        /* Main Content Adjustment */
-        #main-content {
-            margin-left: var(--sidebar-width);
-            width: calc(100% - var(--sidebar-width));
-            min-height: 100vh;
-            transition: all 0.3s;
+        .sidebar-brand {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 10px;
         }
 
-        .sidebar-brand {
-            padding: 0 20px 30px;
-            font-weight: bold;
-            font-size: 1.5rem;
-            color: white;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 20px;
+        /* User Dropdown Settings */
+        .user-dropdown .dropdown-toggle {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1200; /* Ensures the button itself is on top */
+        }
+
+        .user-dropdown .dropdown-menu {
+            z-index: 1400 !important; /* Ensures the menu pops over everything */
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
     </style>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ApexOMS_Web</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/ApexOMS_Web.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-    @* <link href="~/css/login.css" rel="stylesheet" /> *@
 </head>
 <body>
+
     <header>
-         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav id="top-navbar" class="navbar navbar-expand-sm navbar-light border-bottom fixed-top">
             <div class="container-fluid">
-               
-                <a class="navbar-brand fw-bold text-primary" asp-area="" asp-controller="Home" asp-action="Index"> <img src="~/images/apex_logo.png" style="width:150px; height:80px"/></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                <button class="menu-toggle-btn me-3" id="sidebarCollapse">
+                    <i class="bi bi-list"></i>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                    </ul>
-                 
+                <a class="navbar-brand fw-bold text-primary" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/apex_logo.png" style="width:130px; height:auto" />
+                </a>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
                     <ul class="navbar-nav">
-                        @* <li class="nav-item">
-                            <a class="nav-link text-primary fw-bold" href="/Account/Register">Register New ID</a>
-                        </li> *@
-                        <li class="nav-item ms-2">
-                            <a class="btn btn-danger px-4 shadow-sm text-white fw-bold" href="/Account/Logout">Logout</a>
+                        <li class="nav-item dropdown user-dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle me-1"></i> Hello, @Context.Session.GetString("UserName")
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li>
+                                    <a class="dropdown-item py-2" href="/Account/Profile">
+                                        <i class="bi bi-person-badge"></i> Profile
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item py-2 text-danger" href="/Account/Logout">
+                                        <i class="bi bi-box-arrow-right"></i> Logout
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
+
             </div>
-
-            
-
-            
-        </nav> 
+        </nav>
     </header>
-    <div id="sidebar" style="width:13%">
+
+    <div id="sidebar">
         <div class="sidebar-brand">
-            <img src="~/images/apex_logo.png" style="width:110px; height:55px" />  <span class="text-primary">OMS</span>
+            <img src="~/images/apex_logo.png" style="width:110px; height:auto" /> <span class="text-primary ms-1">OMS</span>
         </div>
 
         <nav class="nav flex-column">
-            <a class="nav-link" href="/Home/Index"><b class =" text-danger ">HOME</b></a>
+            <a class="nav-link" href="/Home/Index"><i class="bi bi-house-door me-2 text-danger"></i> <b>HOME</b></a>
 
-            @if (Context.Session.GetString("UserRole") == "DesignLab")
+            @if (Context.Session.GetString("UserRole") == "DesignLab" || Context.Session.GetString("UserRole") == "SuperAdmin" || Context.Session.GetString("UserRole") == "IB")
             {
+                if (Context.Session.GetString("UserRole") == "IB")
+                {
+                    <div class="small text-uppercase px-4 mt-3 mb-1 text-muted" style="font-size: 0.65rem; letter-spacing: 1px;">International Business</div>
+                }
 
-                <a class="nav-link" href="/Inventory/Index"><i class="bi bi-box-seam text-info"> Inventory</i></a>
-                <a class="nav-link" href="/Article/Index"><i class="bi bi-box-seam text-info">Articles</i> </a>
-                <a class="nav-link" href="/Bom/Index"><i class="bi bi-box-seam text-info">BOM</i> </a>
-                <a class="nav-link" href="/SampleOrder/Index"><i class="bi bi-box-seam text-info"> Sample Orders</i></a>
-                <a class="nav-link" href="/Dashboard/Index"><i class="bi bi-box-seam text-info">Tracking Dash</i> </a>
-            }
-            @if (Context.Session.GetString("UserRole") == "SuperAdmin")
-            {
-                <a class="nav-link" href="/Inventory/Index"><i class="bi bi-box-seam text-info">Inventory</i> </a>
-                <a class="nav-link" href="/Article/Index"><i class="bi bi-box-seam text-info">Articles</i> </a>
-                <a class="nav-link" href="/Bom/Index"><i class="bi bi-box-seam text-info">BOM</i> </a>
-                <a class="nav-link" href="/SampleOrder/Index"><i class="bi bi-box-seam text-info">Sample Orders</i> </a>
-                <a class="nav-link" href="/Dashboard/Index"><i class="bi bi-box-seam text-info">Tracking Dash</i> </a>
-                <a class="nav-link" href="/Account/UserList"><i class="bi bi-box-seam text-warning"> Access Control</i></a>
-            }
-            @if (Context.Session.GetString("UserRole") == "IB")
-            {
-                <div class="small text-uppercase px-4 mt-3 mb-1 text-muted" style="font-size: 0.7rem;">International Business</div>
-                <a class="nav-link" href="/Inventory/Index"><i class="bi bi-box-seam text-info">Inventory</i> </a>
-                <a class="nav-link" href="/Article/Index"><i class="bi bi-box-seam text-info">Articles</i> </a>
-                <a class="nav-link" href="/Bom/Index"><i class="bi bi-box-seam text-info">BOM</i> </a>
-                <a class="nav-link" href="/SampleOrder/Index"><i class="bi bi-box-seam text-info">Sample Orders</i> </a>
-                <a class="nav-link" href="/Dashboard/Index"><i class="bi bi-box-seam text-info"> Tracking Dash</i></a>
+                <a class="nav-link" href="/Inventory/Index"><i class="bi bi-box-seam text-info me-2"></i> Inventory</a>
+                <a class="nav-link" href="/Article/Index"><i class="bi bi-layers text-info me-2"></i> Articles</a>
+                <a class="nav-link" href="/Bom/Index"><i class="bi bi-list-check text-info me-2"></i> BOM</a>
+                <a class="nav-link" href="/SampleOrder/Index"><i class="bi bi-palette text-info me-2"></i> Sample Orders</a>
+                <a class="nav-link" href="/Dashboard/Index"><i class="bi bi-speedometer2 text-info me-2"></i> Tracking Dash</a>
+
+                if (Context.Session.GetString("UserRole") == "SuperAdmin")
+                {
+                    <a class="nav-link" href="/Account/UserList"><i class="bi bi-shield-lock text-warning me-2"></i> Access Control</a>
+                }
             }
         </nav>
-
-        <div class="mt-auto p-4 border-top border-secondary">
-            <a href="/Account/Logout" class="btn btn-outline-danger btn-sm w-100 text-white">Logout</a>
-        </div>
     </div>
 
     <div id="main-content">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-    <div class="container">
-        <main role="main" >
+        <main role="main">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; Apex Footwear Limited 2026 
+    <footer class="border-top footer text-muted bg-white py-3">
+        <div class="container text-center">
+            &copy; Apex Footwear Limited 2026
         </div>
     </footer>
+
+    <!-- Cleaned up Script Section: Only one set of jQuery/Bootstrap tags -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    @* <script src="~/js/login.js"></script> *@
-    
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+            const sidebar = $('#sidebar');
+            const mainContent = $('#main-content');
+            const navbar = $('#top-navbar');
+
+            // 1. Check LocalStorage on page load
+            if (localStorage.getItem('sidebar-state') === 'open') {
+                sidebar.addClass('active');
+                mainContent.addClass('pushed');
+                navbar.addClass('pushed');
+            }
+
+            // 2. Handle the click toggle
+            $('#sidebarCollapse').on('click', function () {
+                sidebar.toggleClass('active');
+                mainContent.toggleClass('pushed');
+                navbar.toggleClass('pushed');
+
+                // 3. Save the new state to LocalStorage
+                if (sidebar.hasClass('active')) {
+                    localStorage.setItem('sidebar-state', 'open');
+                } else {
+                    localStorage.setItem('sidebar-state', 'closed');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
