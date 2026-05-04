@@ -1,0 +1,58 @@
+﻿@model ApexOMS_Web.Models.InventoryOrder
+
+<div class="container mt-4">
+    <div class="card shadow border-0">
+        @* <div class="card-header bg-success text-white fw-bold">
+            <i class="bi bi-pencil-square me-2"></i>Update Inventory Order: #@Model.order_id
+        </div> *@
+        <div class="card-body">
+            <form asp-action="Edit" method="post">
+                <!-- Hidden ID to ensure we update the correct record -->
+                <input type="hidden" asp-for="sl" />
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Customer Name</label>
+                        <input asp-for="cust_name" class="form-control" required />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Style Name</label>
+                        <input asp-for="style_name" class="form-control" required />
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Part Color</label>
+                        <input asp-for="part_color" class="form-control" />
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Total Quantity</label>
+                        <input asp-for="totalqty" type="number" class="form-control qty-font" required />
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold">Order Status</label>
+                        <select asp-for="order_status" class="form-select">
+                            <option value="1">Pending</option>
+                            <option value="2">Approved</option>
+                            <option value="3">Closed</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Order Receive Date</label>
+                        <input asp-for="order_receive_date" type="date" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-3 border-top d-flex gap-2">
+                    <button type="submit" class="btn btn-success px-5 fw-bold">
+                        <i class="bi bi-save me-2"></i>Update Record
+                    </button>
+                    <a href="/Inventory/Index" class="btn btn-secondary px-4">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

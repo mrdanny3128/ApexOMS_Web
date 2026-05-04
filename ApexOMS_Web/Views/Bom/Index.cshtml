@@ -1,71 +1,4 @@
-﻿@* 
-@model IEnumerable<ApexOMS_Web.Models.Bom>
-
-<div class="container-fluid mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-dark fw-bold"><i class="bi bi-list-check"></i> Bill of Materials (BOM)</h2>
-        @if (Context.Session.GetString("UserRole") != "IB")
-        {
-            <a href="/Bom/Create" class="btn btn-dark">+ New BOM Entry</a>
-        }
-        
-    </div>
-
-    <div class="card shadow-sm border-0">
-        <div class="card-body p-0">
-            <table id="articleTable" class="table table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th>BOM No</th>
-                        <th>Sales Part</th>
-                        <th>Last</th>
-                        <th>Element</th>
-                        <th>Material Description</th>
-                        <th>Quantity</th>
-                        <th>Finish Type</th>
-                        <th>Unit Of Measures</th>
-                        <th>Rate</th>
-                        <th>Entry Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>@item.BOM_NO</td>
-                            <td>@item.APEX_SALES_PART</td>
-                            <td>@item.LAST</td> 
-                            <td>@item.ELEMENT</td>
-                            <td>@item.MATERIALDESC</td>
-                            <td>@item.QUANTITY</td>
-                            <td>@item.finish_type</td>
-                            <td>@item.UOM</td>
-                            <td>@item.RATE?.ToString("C")</td>
-                            <td>@item.CREATEDATE?.ToString("yyyy-MM-dd")</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-@section Scripts {
-    <script>
-               $('#articleTable').DataTable({
-            "dom": 'fpt', // Search (f) and Pagination (p) on top, then Table (t)
-            "paging": false,
-            "searching": true,
-            "ordering": true,
-            "info": false,
-            "lengthChange": false,
-            "language": {
-                "search": "",
-                "searchPlaceholder": "Search articles, lasts, or seasons..."
-            }
-        });
-    </script>
-} *@
+﻿ 
 
 <style>
     /* 1. Full Fluid for wide technical data */
@@ -172,6 +105,7 @@
                             <th class="text-center">Rate</th>
                             <th>Finish</th>
                             <th>Entry Date</th>
+                            <th class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -188,6 +122,18 @@
                                 <td class="num-data text-center text-success">@item.RATE?.ToString("C")</td>
                                 <td><small class="text-dark text-center">@item.finish_type</small></td>
                                 <td class="small">@item.CREATEDATE?.ToString("yyyy-MM-dd")</td>
+                                <td class="text-center">
+                                    @if (Context.Session.GetString("UserRole") != "IB")
+                                    {
+                                        <a href="/Bom/Edit?id=@item.sl" class="btn btn-sm btn-outline-dark rounded-pill px-3 shadow-sm">
+                                            <i class="bi bi-pencil-square me-1"></i> Edit
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-lock-fill text-muted"></i>
+                                    }
+                                </td>
                             </tr>
                         }
                     </tbody>

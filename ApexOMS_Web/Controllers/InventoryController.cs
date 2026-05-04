@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ApexOMS_Web.Data; // Your DbContext location
+﻿using ApexOMS_Web.Data; // Your DbContext location
 using ApexOMS_Web.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace ApexOMS_Web.Controllers
@@ -52,6 +53,55 @@ namespace ApexOMS_Web.Controllers
             }
             return View(order);
         }
+        // 2. GET: /Inventory/Edit?id=12
+        [HttpGet]
+        public async Task<IActionResult> Edit(int sl)
+        {
+            // We use 'id' as the parameter to match your URL: ?id=12
+            var order = await _context.InventoryOrders
+                .FirstOrDefaultAsync(m => m.sl == sl);
 
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return View(order);
+        }
+
+        // 3. POST: /Inventory/Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(InventoryOrder model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(model);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!InventoryOrderExists(model.sl))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(model);
+        }
+
+        private bool InventoryOrderExists(int sl)
+        {
+            return _context.InventoryOrders.Any(e => e.sl == sl);
+        }
     }
 }
+
+    

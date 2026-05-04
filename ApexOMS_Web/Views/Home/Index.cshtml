@@ -5,6 +5,7 @@
         --admin-danger: #d63031;
     }
 
+   
     /* Full Width Fluid Layout */
     .admin-container {
         max-width: 100% !important;
@@ -171,7 +172,7 @@
 
 
 <div class="container mt-5">
-    <h1>Hello, @Context.Session.GetString("UserName")</h1>
+    @* <h1>Hello, @Context.Session.GetString("UserName")</h1> *@
     <hr />
 
     @if (role == "SuperAdmin")

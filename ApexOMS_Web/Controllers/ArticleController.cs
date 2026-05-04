@@ -58,5 +58,32 @@ namespace ApexOMS_Web.Controllers
                 return View(article);
             }
         }
+        // 1. This method displays the Edit page (GET)
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var article = _context.ArticleLasts.FirstOrDefault(x => x.id == id);
+            if (article == null) return NotFound();
+            return View(article);
+        }
+
+        // 2. THIS IS THE MISSING METHOD CAUSING THE 405 ERROR (POST)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(ArticleLast model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Update the database record
+                _context.ArticleLasts.Update(model);
+                _context.SaveChanges();
+
+                // Redirect back to the Index page after a successful update
+                return RedirectToAction("Index");
+            }
+
+            // If something is wrong with the data, stay on the edit page to show errors
+            return View(model);
+        }
     }
 }

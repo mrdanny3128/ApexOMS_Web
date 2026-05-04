@@ -49,5 +49,40 @@ namespace ApexOMS_Web.Controllers
             }
             return View(bom);
         }
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var role = HttpContext.Session.GetString("UserRole");
+            // Security: Block IB from accessing the edit page
+            if (role == "IB") return RedirectToAction("Index");
+
+            var bom = _context.Boms.FirstOrDefault(b => b.sl == id);
+            if (bom == null)
+            {
+                return NotFound();
+            }
+
+            return View(bom);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Bom bom)
+        {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role == "IB") return Content("Access Denied: View-Only Department.");
+
+            if (ModelState.IsValid)
+            {
+                // Maintain the original user and date info if needed, 
+                // or update it to reflect who edited it.
+                bom.CREATEDATE = DateTime.Now;
+                bom.user_id = HttpContext.Session.GetString("UserName");
+
+                _context.Boms.Update(bom);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(bom);
+        }
     }
 }

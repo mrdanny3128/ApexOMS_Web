@@ -29,12 +29,15 @@ namespace ApexOMS_Web.Controllers
             var user = _context.Users.FirstOrDefault(u =>
                 u.user_id == txtUser &&
                 u.user_pass == txtPass &&
-                u.status == 1); // Check for approval
+                u.status == 1);
 
             if (user != null)
             {
+                // FIX: You MUST set "UserID" here so the Profile page can find the record
+                HttpContext.Session.SetString("UserID", user.user_id);
                 HttpContext.Session.SetString("UserRole", user.Role);
                 HttpContext.Session.SetString("UserName", user.user_name);
+
                 return RedirectToAction("Index", "Home");
             }
 
@@ -42,7 +45,7 @@ namespace ApexOMS_Web.Controllers
             return View();
         }
 
-     
+
         // --- REGISTRATION ---
 
         [HttpGet]
@@ -51,7 +54,7 @@ namespace ApexOMS_Web.Controllers
             return View();
         }
 
-       
+
         [HttpPost]
         public IActionResult Register(RegisterViewModel model)
         {
@@ -74,7 +77,7 @@ namespace ApexOMS_Web.Controllers
             }
             return View(model);
         }
-   
+
 
 
         public IActionResult UserList()
@@ -87,7 +90,7 @@ namespace ApexOMS_Web.Controllers
             return View(users);
         }
 
-   
+
         [HttpPost]
         public IActionResult ApproveUser([FromBody] UserApprovalDto data)
         {
@@ -158,7 +161,80 @@ namespace ApexOMS_Web.Controllers
             // Later, when we add Authentication, we will clear the cookie here.
             return RedirectToAction("Login");
         }
+        // --- PROFILE SECTION ---
+        [HttpGet]
+        public IActionResult Profile()
+        {
+            // Now this will work because "UserID" was set during Login
+            var userId = HttpContext.Session.GetString("UserID");
 
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var user = _context.Users.FirstOrDefault(u => u.user_id == userId);
+
+            if (user == null) return NotFound();
+
+            return View(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Profile(User updatedUser, IFormFile? profilePic)
+        {
+            var sessionUserId = HttpContext.Session.GetString("UserID");
+            if (string.IsNullOrEmpty(sessionUserId)) return RedirectToAction("Login");
+
+            var userInDb = _context.Users.FirstOrDefault(u => u.user_id == sessionUserId);
+
+            if (userInDb != null)
+            {
+                // Update basic information
+                userInDb.user_name = updatedUser.user_name;
+                userInDb.user_email = updatedUser.user_email;
+
+                // Only update password if the user actually typed a new one
+                if (!string.IsNullOrEmpty(updatedUser.user_pass))
+                {
+                    userInDb.user_pass = updatedUser.user_pass;
+                }
+
+                // Handle Image Upload
+                if (profilePic != null && profilePic.Length > 0)
+                {
+                    try
+                    {
+                        string folder = "images/profiles/";
+                        string fileName = userInDb.user_id + Path.GetExtension(profilePic.FileName);
+                        string serverFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", folder);
+
+                        if (!Directory.Exists(serverFolder)) Directory.CreateDirectory(serverFolder);
+
+                        string filePath = Path.Combine(serverFolder, fileName);
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await profilePic.CopyToAsync(fileStream);
+                        }
+
+                        // FIX: Update the database column with the new image path
+                        //userInDb.image_path = "/" + folder + fileName;
+                    }
+                    catch (Exception ex)
+                    {
+                        ViewBag.Error = "Image upload failed: " + ex.Message;
+                    }
+                }
+
+                _context.SaveChanges();
+
+                // Update session so the name in the top-right corner refreshes immediately
+                HttpContext.Session.SetString("UserName", userInDb.user_name);
+                ViewBag.Message = "Profile updated successfully!";
+            }
+
+            return View(userInDb);
+        }
     }
 }
 public class UserApprovalDto

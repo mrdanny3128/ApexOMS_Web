@@ -99,6 +99,8 @@
                             <th>Season</th>
                             <th class="text-center">Status</th>
                             <th>Entry Date</th>
+                            <th class="text-center">Actions</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -124,6 +126,18 @@
                                     }
                                 </td>
                                 <td class="text-muted small">@item.entry_date?.ToString("yyyy-MM-dd HH:mm")</td>
+                                <td class="text-center">
+                                    @if (Context.Session.GetString("UserRole") != "IB")
+                                    {
+                                        <a href="/Article/Edit?id=@item.id" class="btn btn-sm btn-outline-warning">
+                                            <i class="bi bi-pencil">Edit</i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-lock-fill text-muted"></i>
+                                    }
+                                </td>
                             </tr>
                         }
                     </tbody>
