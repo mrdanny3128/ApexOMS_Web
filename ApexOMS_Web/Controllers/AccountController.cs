@@ -37,6 +37,9 @@ namespace ApexOMS_Web.Controllers
                 HttpContext.Session.SetString("UserID", user.user_id);
                 HttpContext.Session.SetString("UserRole", user.Role);
                 HttpContext.Session.SetString("UserName", user.user_name);
+                // Save the image path to session. Use a default if it's empty.
+                string userImg = string.IsNullOrEmpty(user.image_path) ? "/images/profiles/default.png" : user.image_path;
+                HttpContext.Session.SetString("UserProfilePic", userImg);
 
                 return RedirectToAction("Index", "Home");
             }
@@ -218,7 +221,7 @@ namespace ApexOMS_Web.Controllers
                         }
 
                         // FIX: Update the database column with the new image path
-                        //userInDb.image_path = "/" + folder + fileName;
+                        userInDb.image_path = "/" + folder + fileName;
                     }
                     catch (Exception ex)
                     {

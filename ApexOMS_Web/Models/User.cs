@@ -19,5 +19,6 @@ namespace ApexOMS_Web.Models
 
         public string? Role { get; set; }
         public int? active { get; set; }
+        public string? image_path { get; set; } // Added for profile pictures
     }
 }

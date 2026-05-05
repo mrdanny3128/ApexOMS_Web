@@ -26,12 +26,12 @@
                 <div class="row g-5">
                     <!-- Photo Column -->
                     <div class="col-md-4 text-center border-end">
-                        @* <div class="mb-4">
+                         <div class="mb-4">
                             <img id="imgPreview"
                                  src="@(string.IsNullOrEmpty(Model.image_path) ? "/images/default-user.png" : Model.image_path)"
                                  class="rounded-circle border p-1 shadow"
                                  style="width: 180px; height: 180px; object-fit: cover;" />
-                        </div> *@
+                        </div> 
                         <div class="px-3">
                             <label class="form-label fw-bold small text-uppercase">Change Photo</label>
                             <input type="file" name="profilePic" class="form-control form-control-sm" accept="image/*" onchange="showPreview(event)" />
