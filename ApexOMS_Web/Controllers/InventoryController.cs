@@ -1,4 +1,4 @@
-﻿using ApexOMS_Web.Data; // Your DbContext location
+using ApexOMS_Web.Data; // Your DbContext location
 using ApexOMS_Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -38,13 +38,18 @@ namespace ApexOMS_Web.Controllers
             {
                 return Forbid(); // Or return Content("Access Denied");
             }
+
+            ModelState.Remove("order_id");
+            ModelState.Remove("order_receive_date");
+
             if (ModelState.IsValid)
             {
-                // Generate Random ID if needed
-                Random rnd = new Random();
-                order.order_id = rnd.Next(100000, 999999);
+                // Generate sequential Order ID
+                var lastOrder = _context.InventoryOrders.OrderByDescending(o => o.order_id).FirstOrDefault();
+                int nextId = (lastOrder != null && lastOrder.order_id.HasValue) ? lastOrder.order_id.Value + 1 : 100001;
+                
+                order.order_id = nextId;
                 order.order_receive_date = DateTime.Now;
-                //order.order_status = 1;
 
                 _context.InventoryOrders.Add(order); // Prepare the Insert
                 _context.SaveChanges();              // Execute the Insert
@@ -95,6 +100,21 @@ namespace ApexOMS_Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int sl)
+        {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role == "IB") return Content("Access Denied: View-Only Department.");
+
+            var order = await _context.InventoryOrders.FirstOrDefaultAsync(m => m.sl == sl);
+            if (order != null)
+            {
+                _context.InventoryOrders.Remove(order);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         private bool InventoryOrderExists(int sl)

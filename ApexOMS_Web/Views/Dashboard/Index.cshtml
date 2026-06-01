@@ -1,4 +1,4 @@
-﻿
+
 
 
  <style>
@@ -184,6 +184,10 @@
                                     <a href="/Dashboard/Edit/@item.shop_order_number" class="btn btn-sm btn-outline-info text-center">
                                         <i class="bi bi-pencil">Edit</i>
                                     </a>
+                                    <a href="/Dashboard/Delete/@item.shop_order_number" class="btn btn-sm btn-outline-danger text-center" onclick="return confirm('Are you sure you want to delete this record?');">
+                                        <i class="bi bi-trash">Delete</i>
+                                    </a>
+
                                 </td>
                             </tr>
                         }
@@ -211,6 +215,8 @@
                     "searchPlaceholder": "Search Here..."
                 }
             });
+             
+
         });
     </script>
 }

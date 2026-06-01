@@ -1,4 +1,4 @@
-﻿@model ApexOMS_Web.Models.InventoryOrder
+@model ApexOMS_Web.Models.InventoryOrder
 
 <div class="container mt-4">
     <div class="card shadow border-0">
@@ -9,6 +9,7 @@
             <form asp-action="Edit" method="post">
                 <!-- Hidden ID to ensure we update the correct record -->
                 <input type="hidden" asp-for="sl" />
+                <input type="hidden" asp-for="order_id" />
 
                 <div class="row g-4">
                     <div class="col-md-6">

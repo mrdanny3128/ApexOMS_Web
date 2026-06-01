@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using ApexOMS_Web.Data;
 using ApexOMS_Web.Models;
 using Microsoft.AspNetCore.Http;
@@ -83,6 +83,21 @@ namespace ApexOMS_Web.Controllers
                 return RedirectToAction("Index");
             }
             return View(bom);
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role == "IB") return Content("Access Denied: View-Only Department.");
+
+            var bom = _context.Boms.FirstOrDefault(b => b.sl == id);
+            if (bom != null)
+            {
+                _context.Boms.Remove(bom);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
         }
     }
 }

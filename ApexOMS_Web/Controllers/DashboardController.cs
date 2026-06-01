@@ -1,4 +1,4 @@
-﻿using ApexOMS_Web.Data;
+using ApexOMS_Web.Data;
 using Microsoft.AspNetCore.Hosting;
 using ApexOMS_Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -122,6 +122,18 @@ namespace ApexOMS_Web.Controllers
             _context.Entry(updatedData).Property(x => x.shop_no_generated).IsModified = false;
 
             _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var data = _context.Dashboards.Find(id);
+            if (data != null)
+            {
+                _context.Dashboards.Remove(data);
+                _context.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
     }
