@@ -26,6 +26,9 @@ namespace ApexOMS_Web.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role == "IB") return RedirectToAction("Index");
+
             return View();
         }
 
@@ -62,6 +65,9 @@ namespace ApexOMS_Web.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role == "IB") return RedirectToAction("Index");
+
             var article = _context.ArticleLasts.FirstOrDefault(x => x.id == id);
             if (article == null) return NotFound();
             return View(article);
@@ -72,6 +78,9 @@ namespace ApexOMS_Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(ArticleLast model)
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role == "IB") return Forbid();
+
             if (ModelState.IsValid)
             {
                 // Update the database record

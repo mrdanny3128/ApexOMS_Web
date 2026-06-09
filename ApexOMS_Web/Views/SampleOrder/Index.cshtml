@@ -1,4 +1,4 @@
-﻿
+
 @using Microsoft.AspNetCore.Http
 @model IEnumerable<ApexOMS_Web.Models.SampleOrder>
 
@@ -59,7 +59,7 @@
         @if (Context.Session.GetString("UserRole") != "IB")
         {
             <a href="/SampleOrder/Create" class="btn btn-primary fw-bold px-4 shadow-sm">
-                <i class="bi bi-plus-lg me-2">+Add New Sample</i>
+                <i class="bi bi-plus-lg me-2">Add New Sample</i>
             </a>
         }
     </div>
@@ -147,9 +147,12 @@
                                 <a asp-action="Edit" asp-route-id="@item.sl" class="btn btn-sm btn-outline-primary rounded-pill px-3">
                                     <i class="bi bi-pencil-square me-1"></i>Edit
                                 </a>
-                                <a asp-action="Delete" asp-route-id="@item.sl" class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="return confirm('Are you sure you want to delete this sample order?');">
-                                    <i class="bi bi-trash me-1"></i>Delete
-                                </a>
+                                @if (Context.Session.GetString("UserRole") != "IB")
+                                {
+                                    <a asp-action="Delete" asp-route-id="@item.sl" class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="return confirm('Are you sure you want to delete this sample order?');">
+                                        <i class="bi bi-trash me-1"></i>Delete
+                                    </a>
+                                }
                             </td>
                         </tr>
                     }

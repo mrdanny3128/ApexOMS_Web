@@ -44,7 +44,7 @@ namespace ApexOMS_Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            ViewBag.Error = "Account pending approval or invalid credentials.";
+            ViewBag.Error = "Account Pending Approval or Invalid Credentials.";
             return View();
         }
 

@@ -27,6 +27,9 @@ namespace ApexOMS_Web.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role == "IB") return RedirectToAction("Index");
+
             return View();
         }
         // SAVE DATA (POST)
@@ -58,10 +61,12 @@ namespace ApexOMS_Web.Controllers
             }
             return View(order);
         }
-        // 2. GET: /Inventory/Edit?id=12
         [HttpGet]
         public async Task<IActionResult> Edit(int sl)
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role == "IB") return RedirectToAction("Index");
+
             // We use 'id' as the parameter to match your URL: ?id=12
             var order = await _context.InventoryOrders
                 .FirstOrDefaultAsync(m => m.sl == sl);
@@ -79,6 +84,9 @@ namespace ApexOMS_Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(InventoryOrder model)
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role == "IB") return Forbid();
+
             if (ModelState.IsValid)
             {
                 try

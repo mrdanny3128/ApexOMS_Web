@@ -35,6 +35,9 @@ namespace ApexOMS_Web.Controllers
         [ValidateAntiForgeryToken] // Recommended for security
         public IActionResult Create(SampleOrder data)
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role == "IB") return Content("Access Denied: View-Only Department.");
+
             // 1. Tell the server not to worry about these specific fields
             ModelState.Remove("ImageFile");
             ModelState.Remove("image_path");
@@ -124,8 +127,8 @@ namespace ApexOMS_Web.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            //var role = HttpContext.Session.GetString("UserRole");
-            //if (role == "IB") return Content("Access Denied: View-Only Department.");
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role == "IB") return Content("Access Denied: View-Only Department.");
 
             var sample = _context.SampleOrders.Find(id);
             if (sample != null)

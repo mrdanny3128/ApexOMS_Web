@@ -29,6 +29,9 @@ namespace ApexOMS_Web.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role == "IB") return RedirectToAction("Index");
+
             return View();
         }
 
@@ -128,6 +131,9 @@ namespace ApexOMS_Web.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
+            var role = HttpContext.Session.GetString("UserRole");
+            if (role == "IB") return Content("Access Denied: View-Only Department.");
+
             var data = _context.Dashboards.Find(id);
             if (data != null)
             {
